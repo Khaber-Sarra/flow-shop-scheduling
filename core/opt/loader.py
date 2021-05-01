@@ -22,8 +22,13 @@ def loader(file_name,machines_in_rows=False):
         return d
     
     
+    # the retuen type is a pandas DataFrame 
     return data
 
 
 # to test the loader just uncomment the next line an give a valid data.txt path
+<<<<<<< HEAD:core/loader.py
 #print(loader("./data/data.txt"))
+=======
+# print(loader("../data/data.txt"))
+>>>>>>> 84343892dc42826b7ca74d782eb26a383dafe3ab:core/opt/loader.py
