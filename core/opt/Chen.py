@@ -2,12 +2,23 @@ import numpy
 from loader import loader
 from Makespan import Makespan
 import time
+import threading
+
+Som=[]
+Inf=[]
+Sup=[]
+
+def sortInf(data):
+    #trier la liste Inf selon l'ordre croissant de P1
+    Inf=sorted(data,key=lambda x:x[0])
+
+def sortSup(data):
+     #trier la liste Sup selon l'ordre décroissant de Pm
+    Sup=sorted(data,key=lambda x:x[0], reverse=True)
 
 def Chen(dataset):
 
-    Som=[]
-    Inf=[]
-    Sup=[]
+   
     #lire les donnees depuis le nom de fichier en entrée "Dataset"
     data = loader(dataset,machines_in_rows=False)
     print(data)
@@ -26,11 +37,22 @@ def Chen(dataset):
                 Inf.append([data.iloc[i,0],i])
             else :
                 Sup.append([data.iloc[i,m-1],i])
-    #trier la liste Inf selon l'ordre croissant de P1
-    Inf=sorted(Inf,key=lambda x:x[0])
-    #trier la liste Sup selon l'ordre décroissant de Pm
-    Sup=sorted(Sup,key=lambda x:x[0], reverse=True)
+
+    # creer deux threads pour la parallelisation du tri des sequences Inf et Sup
+    t1 = threading.Thread(target=sortInf,args=(Inf,))
+    t2 = threading.Thread(target=sortSup,args=(Sup,))
+  
+    # starting thread 1
+    t1.start()
+    # starting thread 2
+    t2.start()
+  
+    # wait until thread 1 is completely executed
+    t1.join()
+    # wait until thread 2 is completely executed
+    t2.join()
     ##print("La premiere sequence",Inf)
+
     ##print("La deuxieme sequence",Sup)
     sol =[]
     #concatener les liste : Inf, Max, Sup dans la solution finale
