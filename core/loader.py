@@ -18,11 +18,12 @@ def loader(file_name,machines_in_rows=False):
     data = pd.read_csv(file_name,header=None,delim_whitespace=True)
     data
     if machines_in_rows:
-        data.transpose(inplace=True)
-    data['jid'] = data.index.copy()
+        d=data.transpose()
+        return d
+    
     
     return data
 
 
 # to test the loader just uncomment the next line an give a valid data.txt path
-# print(loader("./data/data.txt"))
+#print(loader("./data/data.txt"))
