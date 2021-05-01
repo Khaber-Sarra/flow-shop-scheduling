@@ -1,5 +1,7 @@
 import numpy
 from loader import loader
+from Makespan import Makespan
+import time
 
 def Chen(dataset):
 
@@ -9,12 +11,13 @@ def Chen(dataset):
     #lire les donnees depuis le nom de fichier en entrée "Dataset"
     data = loader(dataset,machines_in_rows=False)
     print(data)
+    print("----------------------------------------")
     #calculer la somme des temps d'execution de chaque job sur toutes les machines dans Som
     Som=data.sum(axis=1).tolist()
-    print(Som)
+    ##print(Som)
     #recuperer le job avec le temps d'exec max  
     maxIndex=Som.index(max(Som)) # C
-    print("maxIndex",maxIndex)
+    ##print("maxIndex",maxIndex)
     n,m=data.shape
     #creer deux liste : Inf contenant les jobs avec P1<=Pm  et Sup contenant les jobs avec P1>Pm
     for i in range(n):
@@ -27,8 +30,8 @@ def Chen(dataset):
     Inf=sorted(Inf,key=lambda x:x[0])
     #trier la liste Sup selon l'ordre décroissant de Pm
     Sup=sorted(Sup,key=lambda x:x[0], reverse=True)
-    print("La premiere sequence",Inf)
-    print("La deuxieme sequence",Sup)
+    ##print("La premiere sequence",Inf)
+    ##print("La deuxieme sequence",Sup)
     sol =[]
     #concatener les liste : Inf, Max, Sup dans la solution finale
     for i in range(len(Inf)):
@@ -36,8 +39,15 @@ def Chen(dataset):
     sol.append(maxIndex)
     for i in range(len(Sup)):
         sol.append(Sup[i][1])
+    print("ordonnancement",sol)
+    print("----------------------------------------")
+    print("fin d'execution t=",Makespan(data,sol))
+    print("----------------------------------------")
     #retourner l'ordonnencement final
     return sol
+    
+start=time.time()
+sol=Chen("./core/data/data.txt")
+end=time.time()
+print("le temps d'exec algorithme",end-start)
 
-sol=Chen("./core/data/data1.txt")
-print("La solution",sol)
