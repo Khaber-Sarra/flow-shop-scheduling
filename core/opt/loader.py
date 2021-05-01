@@ -21,8 +21,9 @@ def loader(file_name,machines_in_rows=False):
         data.transpose(inplace=True)
     data['jid'] = data.index.copy()
     
+    # the retuen type is a pandas DataFrame 
     return data
 
 
 # to test the loader just uncomment the next line an give a valid data.txt path
-# print(loader("./data/data.txt"))
+# print(loader("../data/data.txt"))
