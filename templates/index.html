@@ -1,3 +1,4 @@
+{% load static%}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,24 +8,179 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>Flow Shop Scheduling</title>
+    <script src="{% static 'main.js'%}"></script>
 </head>
 
-<body>
+<body style="background-color:#EEEEEE">
+
 
     <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                One of three columns
+        <div class="row justify-content-center" style="margin-top: 50px; ">
+            <div class="col-md-4 ">
+
+                <h1 style="color: #007b5e"> Flow Shop Scheduling</h1>
             </div>
-            <div class="col-sm">
-                One of three columns
+        </div>
+        <div class="row justify-content-center" style="margin-top: 50px; ">
+            <!-- Card Projects -->
+            <div class="col-md-8 ">
+                <div class="card" style="
+                background-color:white;
+                box-sizing: border-box;
+                border-radius: 5px;
+                text-align: center;
+                padding:40px;
+                transition: all 0.2s ease-in;
+                box-shadow: 0px 3px 4px rgb(0 0 0 / 40%);
+                background-clip: padding-box;">
+                    <div class="card-image">
+                        <img class="img-responsive" src="{% static 'flow-shart.gif'%}">
+                    </div>
+
+                    <div class="card-content" style="margin-top: 50px">
+
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type specimen book. It has survived not only five
+                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing software like Aldus PageMaker including
+                            versions of Lorem Ipsum.
+
+                        </p>
+                    </div>
+
+                    <div class="card-action" style="
+                        margin-top: 50px;
+                    border-top: 1px solid rgba(160, 160, 160, 0.2);
+                    ">
+                        <div class="container p-0">
+                            <div class="row">
+                                <div class="col-sm p-0 m-0">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Generate Random Instance</h5>
+                                            <p class="card-text">With supporting text below as a natural lead-in to
+                                                additional
+                                                content.</p>
+                                            <a href="#" class="btn btn-primary mt-auto" data-bs-toggle="modal"
+                                                data-bs-target="#generateModal"
+                                                style="background-color:#007b5e">Generate</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm p-0 m-0">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Create Instance</h5>
+                                            <p class="card-text">With supporting text below as a natural lead-in to
+                                                additional
+                                                content.</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#createModal"
+                                                style="background-color:#007b5e; margin-top:22px">Create</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm p-0 m-0">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Select Instance</h5>
+                                            <p class="card-text">With supporting text below as a natural lead-in to
+                                                additional
+                                                content.</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#selectModal"
+                                                style="background-color:#007b5e; margin-top:22px">Select</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm">
-                One of three columns
+
+        </div>
+    </div>
+    <!-- basic modal -->
+    <!-- Select instance Modal -->
+    <div class="modal fade" id="selectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="selectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectModalLabel">Select Instance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" style="background-color:#007b5e;"
+                        data-bs-dismiss="modal">Confirm</button>
+                </div>
             </div>
         </div>
     </div>
+    <!-- Generate instance Modal -->
+    <div class="modal fade" id="generateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="generateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="generateModalLabel">Generate Instance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" style="background-color:#007b5e;">Generate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Create instance Modal -->
+    <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/create" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="instance_name" class="form-label">Instance Name</label>
+                            <input type="text" name="instance_name" class="form-control" id="instance_name"
+                                placeholder="My Instance -1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="instance_data" class="form-label">Instance: </label>
+                            <textarea class="form-control" name="instance_data" id="instance_data" rows="16"
+                                placeholder="9 3 10 1 8&#10;4 8 8 7 2"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" style="background-color:#007b5e;">Create</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>
