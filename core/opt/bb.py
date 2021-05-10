@@ -1,6 +1,7 @@
 from loader import loader 
 from Makespan import Makespan
 import numpy as np
+import time
 
 optimalSeq=[] #Contains the optimal sequence after traitement
 lb=0          #Lower Bound 
@@ -100,13 +101,23 @@ def bb(dataset):
 print("First example")
 dataPath="../data/bbdata.txt"
 dataset=loader(dataPath)
+
+start=time.time()
 bb(dataset)
+end=time.time()
+
 print 'The optimal sequence is :',optimalSeq
-print "Makespan :",lb 
+print "Makespan :",lb
+print 'Execution time',end-start 
 
 print("\nSecond example")
-dataPath="../data/bbdata1.txt"
+dataPath="../data/data1.txt"
 dataset=loader(dataPath)
+
+start=time.time()
 bb(dataset)
+end=time.time()
+
 print 'The optimal sequence is :',optimalSeq
-print "Makespan :",lb 
+print "Makespan :",lb
+print 'Execution time',end-start  
