@@ -1,3 +1,4 @@
+#coding=utf-8
 import numpy
 from loader import loader
 from Makespan import Makespan
@@ -71,7 +72,7 @@ def Chen(dataset):
     return sol,Makespan(data,sol)
     
 start=time.time()
-sol,makespan=Chen("./core/data/data.txt")
+sol,makespan=Chen("../data/data.txt")
 end=time.time()
 print("ordonnancement",sol)
 print("----------------------------------------")
