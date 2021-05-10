@@ -15,6 +15,8 @@ def neh(data):
     '''
     mem_jobs_list = []
     partiel_jobs_list, res = [], []
+    data['jid'] = data.index.copy()
+
 
     data['sum'] = data.drop('jid', axis=1).sum(axis=1)
     # data.sort_values(['sum'],ascending=False,inplace = True)
