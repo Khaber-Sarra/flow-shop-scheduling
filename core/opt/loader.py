@@ -16,7 +16,8 @@ machines_in_rows=True instead of the default value False
 def loader(file_name,machines_in_rows=False): 
     # load a given file with the name "file_name"
     data = pd.read_csv(file_name,header=None,delim_whitespace=True)
-    data
+
+    data['jid'] = data.index.copy()
     if machines_in_rows:
         d=data.transpose()
         return d

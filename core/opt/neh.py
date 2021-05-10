@@ -34,8 +34,9 @@ def neh(data):
                 res = tmp
                 cmax_t = c
         mem_jobs_list = res
-
+    print(mem_jobs_list, cmax_t)
     return mem_jobs_list, cmax_t
+
 
 
 """
@@ -43,5 +44,5 @@ for testing just uncomment the two lines below
 and modify the data.txt file
 """
 
-# data = loader("../data/data.txt")
-# neh(data)
+data = loader("../data/data.txt")
+neh(data)
