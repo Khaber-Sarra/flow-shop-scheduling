@@ -15,6 +15,8 @@ def neh(data):
     '''
     mem_jobs_list = []
     partiel_jobs_list, res = [], []
+    data['jid'] = data.index.copy()
+
 
     data['sum'] = data.drop('jid', axis=1).sum(axis=1)
     # data.sort_values(['sum'],ascending=False,inplace = True)
@@ -34,8 +36,9 @@ def neh(data):
                 res = tmp
                 cmax_t = c
         mem_jobs_list = res
-
+    print(mem_jobs_list, cmax_t)
     return mem_jobs_list, cmax_t
+
 
 
 """
@@ -43,5 +46,5 @@ for testing just uncomment the two lines below
 and modify the data.txt file
 """
 
-# data = loader("../data/data.txt")
-# neh(data)
+data = loader("../data/data.txt")
+neh(data)

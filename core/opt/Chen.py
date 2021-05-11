@@ -1,10 +1,11 @@
+#coding=utf-8
 import numpy
 from loader import loader
 from Makespan import Makespan
 import time
 import threading
 
-Som=[]
+Som=[]                      
 Inf=[]
 Sup=[]
 
@@ -15,6 +16,11 @@ def sortInf(data):
 def sortSup(data):
      #trier la liste Sup selon l'ordre décroissant de Pm
     Sup=sorted(data,key=lambda x:x[0], reverse=True)
+
+'''
+cette fonction prend en parametre la matrice des temps d'exec des jobs sur les machines
+et retourne l'ordonnancement des jobs et le temps de fin d'exec
+'''
 
 def Chen(dataset):
 
@@ -61,15 +67,16 @@ def Chen(dataset):
     sol.append(maxIndex)
     for i in range(len(Sup)):
         sol.append(Sup[i][1])
-    print("ordonnancement",sol)
-    print("----------------------------------------")
-    print("fin d'execution t=",Makespan(data,sol))
-    print("----------------------------------------")
+   
     #retourner l'ordonnencement final
-    return sol
+    return sol,Makespan(data,sol)
     
 start=time.time()
-sol=Chen("./core/data/data.txt")
+sol,makespan=Chen("../data/data.txt")
 end=time.time()
+print("ordonnancement",sol)
+print("----------------------------------------")
+print("fin d'execution t=",makespan)
+print("----------------------------------------")
 print("le temps d'exec algorithme",end-start)
 
