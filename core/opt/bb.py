@@ -76,7 +76,16 @@ def dfs(seq, rJobs, dataset):
         
             
         
-
+def johnson_seq(data):
+        # data matrix must have only two machines
+        nb_machines = len(data)
+        nb_jobs = len(data[0])
+        machine_1_sequence = [j for j in range(nb_jobs) if data[0][j] <= data[1][j]]
+        machine_1_sequence.sort(key=lambda x: data[0][x])
+        machine_2_sequence = [j for j in range(nb_jobs) if data[0][j] > data[1][j]]
+        machine_2_sequence.sort(key=lambda x: data[1][x], reverse=True)
+        seq = machine_1_sequence + machine_2_sequence
+        return seq
 
 #Branch & bound function for FSP problem using DFS parcour 
 def bb(dataset):
@@ -98,26 +107,26 @@ def bb(dataset):
 
 
 
-print("First example")
+print("First example  6 Jobs / 5 Mahines")
 dataPath="../data/bbdata.txt"
-dataset=loader(dataPath)
+dataset65=loader(dataPath)
 
 start=time.time()
-bb(dataset)
+bb(dataset65)
 end=time.time()
 
-print 'The optimal sequence is :',optimalSeq
-print "Makespan :",lb
-print 'Execution time',end-start 
+print ('The optimal sequence is :',optimalSeq)
+print ("Makespan :",lb)
+print ('Execution time',end-start) 
 
-print("\nSecond example")
-dataPath="../data/data1.txt"
-dataset=loader(dataPath)
+print("\nSecond example  8 Jobs / 5 machines")
+dataPath="../data/bbdata1.txt"
+dataset95=loader(dataPath)
 
 start=time.time()
-bb(dataset)
+bb(dataset95)
 end=time.time()
 
-print 'The optimal sequence is :',optimalSeq
-print "Makespan :",lb
-print 'Execution time',end-start  
+print ('The optimal sequence is :',optimalSeq)
+print ("Makespan :",lb)
+print ('Execution time',end-start)  
