@@ -39,7 +39,7 @@ def neh(data, nb_jobs):
     """
     étape 6 de  NEH Amélioré, voir " Amélioration de la NEH " pour plus de détails.
     """
-    tmp_list =[]
+    tmp_list = []
     for i in range(nb_jobs):
         for j in range(i+1,nb_jobs):
             tmp_list = mem_jobs_list.copy()
