@@ -35,10 +35,11 @@ def neh(data, nb_jobs):
                 res = tmp_list
                 cmax_t = c
         mem_jobs_list = res
-    print(mem_jobs_list, cmax_t)
+    #print(mem_jobs_list, cmax_t)
     """
     étape 6 de  NEH Amélioré, voir " Amélioration de la NEH " pour plus de détails.
     """
+
     tmp_list = []
     for i in range(nb_jobs):
         for j in range(i+1,nb_jobs):
