@@ -1,0 +1,283 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Shop Scheduling</title>
+    <script src="{% static 'main.js'%}"></script>
+</head>
+
+<body style="background-color:#EEEEEE">
+
+
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top: 50px; ">
+            <div class="col-md-4 ">
+
+                <h1 style="color: #007b5e"> Flow Shop Scheduling</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center" style="margin-top: 50px; ">
+            <!-- Card Projects -->
+            <div class="col-md-8 ">
+                <div class="card" style="
+                background-color:white;
+                box-sizing: border-box;
+                border-radius: 5px;
+                text-align: center;
+                padding:40px;
+                transition: all 0.2s ease-in;
+                box-shadow: 0px 3px 4px rgb(0 0 0 / 40%);
+                background-clip: padding-box;">
+                    <div class="card-image">
+                        <img class="img-responsive" src="{% static 'flow-shart.gif'%}">
+                    </div>
+
+                    <div class="card-content" style="margin-top: 50px">
+
+                        <p>Le problème de l'ordonnancement dans l'industrie manufacturière se caractérise par
+                            l'allocation des tâches sur les machines et l'établissement de la séquence correcte de ces
+                            tâches afin d'optimiser un critère imposé. Chaque travail est identifié par un ensemble de
+                            tâches qui constituent le chemin à suivre dans le cycle de production de l'atelier. Chaque
+                            tâche a un temps d'exécution sur chaque machine lors du lancement des travaux dans le
+                            processus . Dans ce type de problème, plusieurs contraintes peuvent être impliquées, par
+                            exemple, dans les moyens logistiques, on peut trouver, le transfert, l'assemblage, et le
+                            désassemblage des pièces entre les machines, ainsi que l'ajustement des outils de
+                            production.La résolution du problème d'ordonnancement est considérée comme un problème
+                            NP-difficile étant donné une certaine taille du lot et un certain nombre de machines. Les
+                            approches de résolution sont diverses, et nous citons des méthodes exactes, des
+                            heuristiques, des métaheuristiques, et d'autres méthodes combinées.
+                        </p>
+                    </div>
+
+                    <div class="card-action" style="
+                        margin-top: 50px;
+                    border-top: 1px solid rgba(160, 160, 160, 0.2);
+                    ">
+                        <div class="container p-0">
+                            <div class="row">
+                                <div class="col-sm p-0 m-0">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Génerer une instance aléatoire</h5>
+                                            <p class="card-text">Géneration d'une instance de problém aléatoire en
+                                                spécifiant le nombre de machines et le nombre de Jobs</p>
+                                            <a href="#" class="btn btn-primary mt-auto" data-bs-toggle="modal"
+                                                data-bs-target="#generateModal"
+                                                style="background-color:#007b5e">Génerer</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm p-0 m-0">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Créer Instance</h5>
+                                            <p class="card-text">Créer une instance de Flow Shop Scheduling Problem tout
+                                                en copyiant
+                                                les données de l'instance dans la zone spécifique .</p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#createModal"
+                                                style="background-color:#007b5e; margin-top:22px">Create</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm p-0 m-0">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Choisir Instance</h5>
+                                            <p class="card-text">
+                                                Choisir l'instance du probléme depuis un fichier locale, le fichier doit
+                                                contenir que des données séparer par des espaces
+
+                                            </p>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#selectModal"
+                                                style="background-color:#007b5e; margin-top:22px">Select</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- basic modal -->
+    <!-- Select instance Modal -->
+    <div class="modal fade" id="selectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="selectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectModalLabel">Choisir Instance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="instance_name" class="form-label">Instance Name</label>
+                            <input type="text" name="instance_name" class="form-control" id="instance_name"
+                                placeholder="My Instance -1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="instance">Upload</label>
+                            <input type="file" class="form-control" name="instance" accept=".txt, .csv" id="instance">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="machines-jobs" name="instance_structure"
+                                id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Machines en lignes / Jobs en colonnes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="jobs-machines" name="instance_structure"
+                                id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Jobs en lignes / Machines en colonnes
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color:#007b5e;">Confirmer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Generate instance Modal -->
+    <div class="modal fade" id="generateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="generateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="generateModalLabel">Generer Instance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/generate" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <label for="instance_name" class="form-label">Instance Name</label>
+                        <input type="text" name="instance_name" class="form-control" id="instance_name"
+                            placeholder="My Instance -1">
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="jobs_num" class="form-label">Nombre de Jobs</label>
+                                <input type="number" name="jobs_num" class="form-control" id="jobs_num"
+                                    placeholder="10">
+                            </div>
+                            <div class="col">
+                                <label for="machines_num" class="form-label">Nombre de Machines</label>
+                                <input type="number" name="machines_num" class="form-control" id="machines_num"
+                                    placeholder="10">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label for="generation_method" class="form-label">Choisir Méthode de géneration</label>
+                            <select class="form-select form-select-md mb-3" name="generation_method"
+                                aria-label=".form-select-lg example">
+                                <option selected value="uniform">Avec distribution Uniform (min=5,max=80)</option>
+                                <option value="other">Autre méthode</option>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="machines-jobs" name="instance_structure"
+                                id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Machines en lignes / Jobs en colonnes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="jobs-machines" name="instance_structure"
+                                id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Jobs en lignes / Machines en colonnes
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color:#007b5e;">Generate</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Create instance Modal -->
+    <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Créer instance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/create" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="instance_name" class="form-label">Instance Name</label>
+                            <input type="text" name="instance_name" class="form-control" id="instance_name"
+                                placeholder="My Instance -1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="instance_data" class="form-label">Instance: </label>
+                            <textarea class="form-control" name="instance_data" id="instance_data" rows="16"
+                                placeholder="9 3 10 1 8&#10;4 8 8 7 2"></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="machines-jobs" name="instance_structure"
+                                id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Machines en lignes / Jobs en colonnes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="jobs-machines" name="instance_structure"
+                                id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Jobs en lignes / Machines en colonnes
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" style="background-color:#007b5e;">Create</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+        integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+        integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
