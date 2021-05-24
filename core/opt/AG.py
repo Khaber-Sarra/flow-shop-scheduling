@@ -69,7 +69,7 @@ def crossover(parents,n):
     
     for i in range(pos[0], pos[1]):
         child[i] = -1
-    
+
     p = -1
     for i in range(pos[0], pos[1]):
         while True:
@@ -77,7 +77,6 @@ def crossover(parents,n):
             if parents[1][p] not in child:
                 child[i] = parents[1][p]
                 break
-    
     return child
 
 
@@ -94,10 +93,7 @@ def mutation(sol,n):
         pos[1] = t
     
     remJob = sol[pos[1]]
-    
-    for i in range(pos[1], pos[0], -1):
-        sol[i] = sol[i-1]
-        
+    sol[pos[1]]=sol[pos[0]]
     sol[pos[0]] = remJob
     
     return sol
@@ -151,9 +147,6 @@ def AG(dataset):
     data = loader(dataset,machines_in_rows=False)
     cost=data.to_numpy()
     n,m=cost.shape
-    print(data)
-    
-    print(n,m)
     # Nombre d'indiv dans la population
     Npop = 3
     # Probabilité de croisement
@@ -161,7 +154,10 @@ def AG(dataset):
     # Probabilité de mutation
     Pm = 1.0
     # critere d'arret
-    stopGeneration = 100
+    if (n<100):
+        stopGeneration = 100
+    else:
+        stopGeneration = 125
 
     # temps debut exec
     t1 = time.time()
@@ -216,7 +212,7 @@ def AG(dataset):
     return population[bestSol],bestObj
 
 
-sol,makespan=AG("./core/data/data.txt")
+sol,makespan=AG("./core/data/data1.txt")
 print("----------------------------------------")
 print("ordonnancement",sol)
 print("----------------------------------------")
