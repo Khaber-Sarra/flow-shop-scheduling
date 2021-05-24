@@ -5,9 +5,9 @@ l'implementation du recherche tabu
 import sys
 from neh import neh
 from neh_improved import neh_i
-from loader import  loader
-from itertools import  combinations
-from cmax import  import cmax
+from loader import loader
+from itertools import combinations
+from cmax import cmax
 
 """
 def ts(data, nb_jobs, max_iteration, use_improved_neh=False):
@@ -33,14 +33,17 @@ def ts(data, nb_jobs, max_iteration, use_improved_neh=False):
             x = y
 """
 
-def swapMove(data,i,j):
+def swapMove(data, i, j, jobs_index):
     # prend une liste jobs (solution) et retourne un voisin de la solution
     data_c = data.copy() # utilisation d"une copie
-    data_c[i], data_c[j] = data[j], data[i]     # swapping
-    return  data_c
-"""   """
+    data_c[[jobs_index[i], jobs_index[j]]] = data_c[[jobs_index[j], jobs_index[i]]]     # swapping
+    # MAJ des positions des jobs
+    jobs_index[i], jobs_index[j] = jobs_index[j], jobs_index[i]
+    return data_c
 
-def TSearch(data,tenur, nb_jobs):
+
+
+def tabu_search(data, tenur, nb_jobs):
     MAX_INT = sys.maxsize
     # les solutions initiales trouvees par NEH
     best_sol, best_objval = neh(data,nb_jobs)
@@ -49,10 +52,10 @@ def TSearch(data,tenur, nb_jobs):
     nb_machines = len(best_sol[0])-1
 
     # la creation de l'index des jobs pour accelerer l'acces
-    job_index = {}
+    jobs_index = {}
     for i in range(nb_jobs):
         print(best_sol[i])
-        job_index[best_sol[i][nb_machines]] = i
+        jobs_index[best_sol[i][nb_machines]] = i
 
     # initialisation de la structure taboue
     tabu_struct = {}
@@ -64,26 +67,27 @@ def TSearch(data,tenur, nb_jobs):
 
     Terminate = 0
 
-    while Terminate < 100 :
+    while Terminate < 10 :
         #la fouille de tout le voisinage de la solution courante
         candidat_objval = MAX_INT
         for move in tabu_struct :
-            candidat_sol = swapMove(current_sol, move[0], move[1])
+            candidat_sol = swapMove(current_sol, move[0], move[1], jobs_index)
             candidat_objval = cmax(candidat_sol,nb_machines)
-            tabu_struct[move]['value'] = candidat_objval
+            tabu_struct[move]['valeur'] = candidat_objval
 
 
         # un mouvement admissible
         while True :
+            print("move")
             #selectionner le voisin avec la plus petite valeur
             best_move = min(tabu_struct,key=lambda x : tabu_struct[x]['valeur'])
             best_move_value = tabu_struct[best_move]['valeur']
             tabu_time = tabu_struct[best_move]['times']
 
             # si non taboue
-            if tabu_time < iter :
+            if tabu_time < iter:
                 #executer le swap
-                current_sol = swapMove(current_sol, move[0], move[1])
+                current_sol = swapMove(current_sol, best_move[0], best_move[1], jobs_index)
                 current_objval = tabu_struct[best_move]['valeur']
 
                 # si la nouvelle solution est meilleur que la solution existante
@@ -95,7 +99,7 @@ def TSearch(data,tenur, nb_jobs):
 
                 else:
 
-                    Terminate+1
+                    Terminate +=1
 
                 #mise a jour du tabou
                 tabu_struct[best_move]['times'] = iter + tenur
@@ -106,7 +110,7 @@ def TSearch(data,tenur, nb_jobs):
                 #aspiration ?
                 if best_move_value < best_objval :
                     # appliquer le move :
-                    current_sol = swapMove(current_sol, move[0], move[1])
+                    current_sol = swapMove(current_sol, best_move[0], best_move[1], jobs_index)
                     current_objval = tabu_struct[best_move]['valeur']
                     best_sol = current_sol
                     best_objval = current_objval
@@ -130,8 +134,7 @@ def TSearch(data,tenur, nb_jobs):
 
 
 # TODO : update the swapping function's code to support the jobs' index structure
-
-
+# TODO : add the choice to use neh_i instead of the classic neh
 
 
 
@@ -140,4 +143,4 @@ def TSearch(data,tenur, nb_jobs):
 
 
 data = loader("../data/data.txt")
-TSearch(data,3,4)
+print(tabu_search(data, 3, 4))
