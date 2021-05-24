@@ -38,7 +38,7 @@ def neh(data, nb_jobs):
     res = pd.DataFrame(mem_jobs_list)
     res.drop([nb_machines+1],axis='columns',inplace=True)
     #print(res.to_numpy())
-    return mem_jobs_list, cmax_t
+    return res.to_numpy(), cmax_t
 
 
 """
@@ -46,5 +46,5 @@ for testing just uncomment the two lines below
 and modify the data.txt file
 """
 
-data = loader("../data/data.txt")
-print(neh(data, 4))
+# data = loader("../data/data.txt")
+# print(neh(data, 4))
