@@ -4,7 +4,7 @@ import numpy as np
 import time
 
 optimalSeq=[] #Contains the optimal sequence after traitement
-lb=0          #Lower Bound 
+ub=0          #Upper Bound, After excuting the algorithm it will contain the makespan of the optimal sequence 
 
 #Function to calculate the cost of the given sequence
 def cost(dataset, seq):
@@ -42,7 +42,7 @@ def eval(cost, dataset, rJobs):
 #Function that maps the tree of possible solutions using DFS method.
 #returns the optimal one
 def dfs(seq, rJobs, dataset):
-    global lb
+    global ub
     global optimalSeq
 
     #Foreach remaining job in rJobs list
@@ -59,65 +59,97 @@ def dfs(seq, rJobs, dataset):
         c=cost(dataset, seq1)  
         #if the mapping reached the lowest level in the branch
         if(len(rJobs1)==0):
-            #if the cost of this branch is inferieur of the actual lower bound
-            if(c<lb):
-                #update the lower bound value
-                lb=c 
+            #if the cost of this branch is inferieur of the actual upper bound
+            if(c<ub):
+                #update the upper bound value
+                ub=c 
                 #update the optimal sequence
                 optimalSeq=[]
                 optimalSeq.extend(seq1) 
         else: #if there are other remaining jobs in the list
             #Calculate the evaluation of the actual node
             e=eval(c, dataset, rJobs1)
-            #if the 'e' value is inferieur of the lower bound the mapping continues
+            #if the 'e' value is inferieur of the upper bound the mapping continues
             #else the branch is eliminated
-            if(e<lb):
+            if(e<ub):
                 dfs(seq1, rJobs1, dataset)
         
-            
-        
 
+#Johnson Algorthim for the particular case with only tow machines  
+def johnson_seq(data):
+        global optimalSeq
+        #data matrix must have only two machines
+        nb_machines = len(data)
+        nb_jobs = len(data[0])
+        #divide the set of jobs into two subsets
+        machine_1_sequence = [j for j in range(nb_jobs) if data[0][j] <= data[1][j]]
+        machine_2_sequence = [j for j in range(nb_jobs) if data[0][j] > data[1][j]]
+
+        #sort the two subsets 
+        #The first one is sorted in ascending order
+        machine_1_sequence.sort(key=lambda x: data[0][x])
+
+        #THe second one is sorted descending order
+        machine_2_sequence.sort(key=lambda x: data[1][x], reverse=True)
+
+        #Merge the two subsets into one set which represente the optimale sequence
+        optimalSeq = machine_1_sequence + machine_2_sequence
 
 #Branch & bound function for FSP problem using DFS parcour 
 def bb(dataset):
-    global lb
+    global ub
     global optimalSeq
     seq=[]
     rJobs=[]
     n,m=dataset.shape
-
-    #Generate a sequence to calculate the initial Lower Bound value
-    for i in range(n):
-        rJobs.append(i)
-    lb=cost(dataset, rJobs)
-    optimalSeq=rJobs
-    #Call the DFS mapping function to get the optimal sequence
-    dfs(seq, rJobs,dataset)
+    if m==2 :
+        johnson_seq(dataset)
+        ub=cost(dataset, optimalSeq)
+    else:
+        #Generate a sequence to calculate the initial Upper Bound value
+        for i in range(n):
+            rJobs.append(i)
+        ub=cost(dataset, rJobs)
+        optimalSeq=rJobs
+        #Call the DFS mapping function to get the optimal sequence
+        dfs(seq, rJobs,dataset)
     return optimalSeq
 
 
 
 
-print("First example")
-dataPath="../data/bbdata.txt"
+print ("First example  6 Jobs / 5 Mahines")
+dataPath="../data/data6-5.txt"
+dataset65=loader(dataPath)
+
+start=time.time()
+bb(dataset65)
+end=time.time()
+
+print ('The optimal sequence is :',optimalSeq)
+print ("Makespan :",ub)
+print ('Execution time',end-start)
+
+print ("\nSecond example  8 Jobs / 5 machines")
+dataPath="../data/data8-5.txt"
+dataset85=loader(dataPath)
+
+start=time.time()
+bb(dataset85)
+end=time.time()
+
+print ('The optimal sequence is :',optimalSeq)
+print ("Makespan :",ub)
+print ('Execution time',end-start) 
+
+print ("Third example  500 Jobs / 2 machines")
+dataPath="../data/data500-2.txt"
 dataset=loader(dataPath)
 
 start=time.time()
 bb(dataset)
 end=time.time()
 
-print 'The optimal sequence is :',optimalSeq
-print "Makespan :",lb
-print 'Execution time',end-start 
-
-print("\nSecond example")
-dataPath="../data/data1.txt"
-dataset=loader(dataPath)
-
-start=time.time()
-bb(dataset)
-end=time.time()
-
-print 'The optimal sequence is :',optimalSeq
-print "Makespan :",lb
-print 'Execution time',end-start  
+print ('The optimal sequence is :',optimalSeq)
+print ("Makespan :",ub)
+print ('Execution time',end-start)  
