@@ -1,10 +1,10 @@
-import pandas
+import pandas as pd
 import numpy as np
 from loader import loader
 from cmax import cmax
 
 
-def neh(data,nb_jobs):
+def neh(data, nb_jobs):
     # TODO add dynamic  nb_machines
     cmax_t = 9999999
     '''
@@ -16,12 +16,12 @@ def neh(data,nb_jobs):
     partiel_jobs_list, res = [], []
     data['jid'] = data.index.copy()
 
-
     data['sum'] = data.drop('jid', axis=1).sum(axis=1)
     # data.sort_values(['sum'],ascending=False,inplace = True)
     data.sort_values(['sum'], ascending=False, inplace=True)
     data.reset_index(drop=False)
     jobs = data.to_numpy()
+    nb_machines = len(jobs[0])-2
 
     mem_jobs_list.append(jobs[0])
 
@@ -35,9 +35,10 @@ def neh(data,nb_jobs):
                 res = tmp
                 cmax_t = c
         mem_jobs_list = res
-    print(mem_jobs_list, cmax_t)
+    res = pd.DataFrame(mem_jobs_list)
+    res.drop([nb_machines+1],axis='columns',inplace=True)
+    #print(res.to_numpy())
     return mem_jobs_list, cmax_t
-
 
 
 """
@@ -46,4 +47,4 @@ and modify the data.txt file
 """
 
 data = loader("../data/data.txt")
-neh(data, 4)
+print(neh(data, 4))
