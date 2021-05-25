@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
-from .loader import loader
-from .cmax import cmax
+from loader import loader
+from cmax import cmax
+import  time
 
 
 def neh(data, nb_jobs):
@@ -46,5 +47,12 @@ for testing just uncomment the two lines below
 and modify the data.txt file
 """
 
-# data = loader("../data/data.txt")
-# print(neh(data, 4))
+start=time.time()
+data = loader("../data/tai20_20.txt")
+sol, makespan=neh(data,20)
+end=time.time()
+print("ordonnancement",sol)
+print("----------------------------------------")
+print("fin d'execution t=",makespan)
+print("----------------------------------------")
+print("le temps d'exec algorithme",end-start)

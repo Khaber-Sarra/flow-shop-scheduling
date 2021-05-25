@@ -2,6 +2,7 @@
 l'implementation du recherche tabu
 
 """
+import time
 import sys
 from neh import neh
 from neh_improved import neh_i
@@ -9,29 +10,6 @@ from loader import loader
 from itertools import combinations
 from cmax import cmax
 
-"""
-def ts(data, nb_jobs, max_iteration, use_improved_neh=False):
-    iter = max_iteration
-    H = 10
-    obj_best = 9999
-    type = 1
-    seed = 2458
-
-    # la solution initiale
-    #x_init, obj_init = neh(data,nb_jobs)
-    x = x_init
-    obj = obj_init
-    obj_local = 99999
-
-
-    for i in range(max_iteration):
-
-        obj_y
-        if obj_y < obj_local :
-            x_local = y
-            obj_local = obj_y
-            x = y
-"""
 
 def swapMove(data, i, j, jobs_index):
     # prend une liste jobs (solution) et retourne un voisin de la solution
@@ -54,7 +32,7 @@ def tabu_search(data, tenur, nb_jobs):
     # la creation de l'index des jobs pour accelerer l'acces
     jobs_index = {}
     for i in range(nb_jobs):
-        print(best_sol[i])
+        #print(best_sol[i])
         jobs_index[best_sol[i][nb_machines]] = i
 
     # initialisation de la structure taboue
@@ -130,9 +108,6 @@ def tabu_search(data, tenur, nb_jobs):
 
 
 
-
-
-
 # TODO : update the swapping function's code to support the jobs' index structure
 # TODO : add the choice to use neh_i instead of the classic neh
 
@@ -142,5 +117,12 @@ def tabu_search(data, tenur, nb_jobs):
 
 
 
-data = loader("../data/data.txt")
-print(tabu_search(data, 3, 4))
+start=time.time()
+data = loader("../data/tai20_20.txt")
+sol, makespan=tabu_search(data,3,20)
+end=time.time()
+print("ordonnancement",sol)
+print("----------------------------------------")
+print("fin d'execution t=",makespan)
+print("----------------------------------------")
+print("le temps d'exec algorithme",end-start)
