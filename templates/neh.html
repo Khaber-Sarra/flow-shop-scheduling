@@ -34,10 +34,26 @@
                 ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                 deserunt mollit anim id est laborum.</p>
+            <div class="d-flex">
+                {% if makespan%}
+                <div class="d-flex" style="flex:1">
+                    <h3>
+                        MakeSpan: {{makespan}}
+                    </h3>
+                </div>
+                {% endif%}
+                {% if execution_time%}
+                <div class="d-flex" style="flex:1">
+                    <h3>
+                        Execution Time: {{execution_time}}s
+                    </h3>
+                </div>
+                {% endif %}
+            </div>
             <div id="chart_div" class="mt-3" style="overflow-x: scroll; height:400px ;">
             </div>
             <div class="btn btn-default play-instance position-absolute m-3 rounded-circle ">
-                <a href="/main/neh?start">
+                <a href="/main/neh?start=1">
                     <span class="material-icons mt-1" style="color:white">
                         play_arrow
                     </span>
@@ -83,30 +99,56 @@
     <script type="text/javascript">
         google.charts.load("current", { packages: ["timeline"] });
         google.charts.setOnLoadCallback(drawChart);
+        function toDateTime(secs) {
+            var t = new Date(0, 0, 0); // Epoch
+            t.setSeconds(secs);
+            return t;
+        }
         function drawChart() {
             var container = document.getElementById('chart_div');
             var chart = new google.visualization.Timeline(container);
             var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn({ type: 'string', id: 'Room' });
-            dataTable.addColumn({ type: 'string', id: 'Name' });
+            dataTable.addColumn({ type: 'string', id: 'Machine' });
+            dataTable.addColumn({ type: 'string', id: 'Job' });
+            dataTable.addColumn({ type: 'string', id: 'style', role: 'style' });
             dataTable.addColumn({ type: 'date', id: 'Start' });
             dataTable.addColumn({ type: 'date', id: 'End' });
-            dataTable.addRows([
-                ['Magnolia Room', 'CSS Fundamentals', new Date(0, 0, 0, 12, 0, 0), new Date(0, 0, 0, 14, 0, 0)],
-                ['Magnolia Room', 'Intro JavaScript', new Date(0, 0, 0, 14, 30, 0), new Date(0, 0, 0, 16, 0, 0)],
-                ['Magnolia Room', 'Advanced JavaScript', new Date(0, 0, 0, 16, 30, 0), new Date(0, 0, 0, 19, 0, 0)],
-                ['Magnolia Room', 'Advanced JavaScript', new Date(0, 0, 0, 19, 30, 0), new Date(0, 0, 0, 20, 30, 0)],
-                ['Gladiolus Room', 'Intermediate Perl', new Date(0, 0, 0, 12, 30, 0), new Date(0, 0, 0, 14, 0, 0)],
-                ['Gladiolus Room', 'Advanced Perl', new Date(0, 0, 0, 14, 30, 0), new Date(0, 0, 0, 16, 0, 0)],
-                ['Gladiolus Room', 'Applied Perl', new Date(0, 0, 0, 16, 30, 0), new Date(0, 0, 0, 18, 0, 0)],
-                ['Petunia Room', 'Google Charts', new Date(0, 0, 0, 12, 30, 0), new Date(0, 0, 0, 14, 0, 0)],
-                ['Petunia Room', 'Closure', new Date(0, 0, 0, 14, 30, 0), new Date(0, 0, 0, 16, 0, 0)],
-                ['Petunia Room', 'App Engine', new Date(0, 0, 0, 16, 30, 0), new Date(0, 0, 0, 18, 30, 0)]]);
+
+            const machines = {}
+            const chartData = []
+            {% if chart_data %}
+            var data = JSON.parse("{{chart_data|escapejs}}");
+            for (let machine = 0; machine < data[0].length - 1; machine++) {
+                machines[`Machine-${machine}`] = 0
+            }
+            for (let jobId = 0; jobId < data.length; jobId++) {
+                const job = data[jobId];
+                const color = "#" + Math.floor(Math.random() * 16777215).toString(16)
+                for (let machineId = 0; machineId < job.length - 1; machineId++) {
+                    const value = job[machineId];
+                    var start = 0;
+                    var end = 0
+                    if (machineId == 0) {
+                        start = machines[`Machine-${machineId}`]
+                    } else {
+                        start = machines[`Machine-${machineId - 1}`] > machines[`Machine-${machineId}`] ? machines[`Machine-${machineId - 1}`] : machines[`Machine-${machineId}`]
+                    }
+                    end = start + value
+                    machines[`Machine-${machineId}`] = end
+                    chartData.push([`Machine-${machineId}`, `J-${job[job.length - 1]}`, color, toDateTime(start), toDateTime(end)])
+                }
+            }
+            {% endif %}
+
+
+            dataTable.addRows(chartData);
 
             var options = {
-                timeline: { colorByRowLabel: true },
-                backgroundColor: '#ffd'
+                avoidOverlappingGridLines: true,
+                timeline: { groupByRowLabel: true, },
             };
+
+
 
             chart.draw(dataTable, options);
         }
