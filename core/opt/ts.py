@@ -45,7 +45,7 @@ def tabu_search(data, tenur, nb_jobs):
 
     Terminate = 0
 
-    while Terminate < 10 :
+    while Terminate < 5 :
         #la fouille de tout le voisinage de la solution courante
         candidat_objval = MAX_INT
         for move in tabu_struct :
@@ -118,8 +118,8 @@ def tabu_search(data, tenur, nb_jobs):
 
 
 start=time.time()
-data = loader("../data/tai20_20.txt")
-sol, makespan=tabu_search(data,3,20)
+data = loader("../data/data.txt")
+sol, makespan=tabu_search(data,3,4)
 end=time.time()
 print("ordonnancement",sol)
 print("----------------------------------------")
