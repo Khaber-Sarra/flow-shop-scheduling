@@ -20,8 +20,7 @@ def loader(file_name,machines_in_rows=False):
     if machines_in_rows:
         d=data.transpose()
         return d
-    
-    
+
     # the retuen type is a pandas DataFrame 
     return data
 
