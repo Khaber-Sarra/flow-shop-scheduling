@@ -4,6 +4,7 @@ from .loader import loader
 from .Makespan import Makespan
 import time
 import threading
+import pandas as pd
 import sys
 
 Som=[]                      
@@ -68,16 +69,11 @@ def Chen(data):
     for i in range(len(Sup)):
         sol.append(Sup[i][1])
 
-    results = np.zeros(data.shape,dtype=int)
-    # formatting the result 
-    for idx in range(len(sol)):
-        results[idx] = np.append(data[sol[idx]],[sol[idx]])
-   
     #retourner l'ordonnencement final
-    return results,Makespan(data,sol)
+    return sol,Makespan(data,sol)
     
 #start=time.time()
-#sol,makespan=Chen("../data/data.txt")
+#sol,makespan=Chen(data)
 #end=time.time()
 #print("ordonnancement",sol)
 #print("----------------------------------------")

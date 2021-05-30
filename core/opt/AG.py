@@ -10,12 +10,12 @@ import pandas
 from multiprocessing.dummy import Pool as ThreadPool
 
 
-dataset=sys.argv[1]
-
-da=pandas.read_csv(dataset,header=None,delim_whitespace=True)
-data=da.transpose()
-cost=data.to_numpy()
-n,m=cost.shape
+#dataset=sys.argv[1]
+#
+#da=pandas.read_csv(dataset,header=None,delim_whitespace=True)
+#data=da.transpose()
+#cost=data.to_numpy()
+#n,m=cost.shape
 
 def Makesp(ord):
     return Makespan(data,ord)
@@ -231,7 +231,7 @@ def AG(dataset):
 
     return population[bestSol],bestObj
 
-sol,makespan=AG(dataset)
+sol,makespan=AG("../data/tai20_5.txt")
 
 
 print("----------------------------------------")

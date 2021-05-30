@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 import os
 from pathlib import Path
+import pandas as pd
 import numpy as np
 import json
 from core.opt.loader import loader
@@ -58,10 +59,17 @@ def chen_view(request):
                 start =time.time()
                 result =Chen(loaded_instance)
                 end = time.time()
+                results = format_result(result[0],loaded_instance)    
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
-                context["chart_data"] = json.dumps(result[0].tolist())
+                context["chart_data"] = json.dumps(results.tolist())
             return render(request, "chen.html", context=context)
         else:
             return redirect("/")
 
+def format_result(sol,data):
+    results = np.zeros((data.shape[0],data.shape[1]+1),dtype=int)
+    # formatting the result 
+    for idx in range(len(sol)):
+        results[idx] = data.iloc[sol[idx]].append(pd.Series([sol[idx]]))
+    return results

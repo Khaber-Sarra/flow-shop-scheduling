@@ -51,10 +51,9 @@ def ph(dataset):
       
         return h_seq
 
-#Main Program
-print ("Exemple  5 Jobs / 3 Mahines")
-dataPath="../data/data53.txt"
-dataset53=loader(dataPath)
+#Main Program   
+dataPath="../data/tai20_5.txt"
+dataset53=loader(dataPath, machines_in_rows=True)
 
 start=time.time()
 optimalSeq=ph(dataset53)

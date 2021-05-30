@@ -26,7 +26,7 @@ def swapMove(data, i, j, jobs_index):
 def tabu_search(data, tenur, nb_jobs, nb_machines):
     MAX_INT = sys.maxsize
     # les solutions initiales trouvees par NEH
-    ord, best_sol, best_objval, = fake_neh(data,nb_jobs,nb_machines)
+    ord, best_sol, best_objval, = neh(data,nb_jobs,nb_machines)
     print(best_sol)
     current_sol, current_objval = best_sol, best_objval
 
@@ -143,11 +143,11 @@ def fake_neh(data, nb_jobs, nb_machines):
 
 
 start=time.time()
-data = loader("../data/tai20_20.txt")
-sol, makespan=tabu_search(data, 3, 20, 20)
+data = loader("../data/tai20_5.txt")
+sol, makespan=tabu_search(data, 3, 5, 20)
 end=time.time()
-# print("ordonnancement", sol)
-# print("----------------------------------------")
-# print("fin d'execution t=", makespan)
-# print("----------------------------------------")
-# print("le temps d'exec algorithme", end-start)
+print("ordonnancement", sol)
+print("----------------------------------------")
+print("fin d'execution t=", makespan)
+print("----------------------------------------")
+print("le temps d'exec algorithme", end-start)
