@@ -69,14 +69,15 @@ def Chen(dataset):
         sol.append(Sup[i][1])
    
     #retourner l'ordonnencement final
-    return sol,Makespan(data,sol)
+    return sol, Makespan(data, sol),data
     
-start=time.time()
-sol,makespan=Chen("../data/data.txt")
-end=time.time()
-print("ordonnancement",sol)
+start = time.time()
+sol, makespan, data = Chen("../data/tai20_20.txt")
+end = time.time()
+print("ordonnancement", sol)
 print("----------------------------------------")
-print("fin d'execution t=",makespan)
+print("fin d'execution t=", makespan)
 print("----------------------------------------")
-print("le temps d'exec algorithme",end-start)
+print("le temps d'exec algorithme", end-start)
+print(data.to_numpy())
 

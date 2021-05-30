@@ -201,9 +201,9 @@ def AG(dataset):
 
     bestSol, bestObj = findBestSolution(population,data)
         
-    print("Population:")
-    print(population)
-    print() 
+    # print("Population:")
+    # print(population)
+    # print()
 
     print("CPU Time (s)")
     timePassed = (t2-t1)
@@ -212,9 +212,11 @@ def AG(dataset):
     return population[bestSol],bestObj
 
 
-sol,makespan=AG("./core/data/data1.txt")
+
+sol,makespan=AG("../data/tai20_5.txt")
 print("----------------------------------------")
 print("ordonnancement",sol)
 print("----------------------------------------")
 print("fin d'execution t=",makespan)
 print("----------------------------------------")
+
