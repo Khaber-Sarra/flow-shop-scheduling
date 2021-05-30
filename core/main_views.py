@@ -3,9 +3,9 @@ import os
 from pathlib import Path
 import numpy as np
 import json
-from .opt.loader import loader
-from .opt.neh import neh
-from .opt.Chen import Chen
+from core.opt.loader import loader
+from core.opt.neh import neh
+from core.opt.Chen import Chen
 import time
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -30,6 +30,7 @@ def neh_view(request):
                     nb_jobs = shape[0]  
                 start =time.time()
                 result =neh(loaded_instance,nb_jobs)
+                print(result[0])
                 end = time.time()
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
@@ -53,16 +54,14 @@ def chen_view(request):
                     machines_in_rows = True                 
                 loaded_instance = loader(f"{BASE_DIR}/user_data/{instance}.txt",machines_in_rows=machines_in_rows)
                 shape = loaded_instance.shape
-                nb_jobs = shape[1]
-                if  machines_in_rows:
-                    nb_jobs = shape[0]  
                 start =time.time()
-                result =neh(loaded_instance,nb_jobs)
+                result =Chen(loaded_instance)
                 end = time.time()
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
+
                 context["chart_data"] = json.dumps(result[0].tolist())
-            return render(request, "neh.html", context=context)
+            return render(request, "chen.html", context=context)
         else:
             return redirect("/")
 

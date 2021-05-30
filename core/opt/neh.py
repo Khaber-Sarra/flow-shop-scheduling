@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-from loader import loader
-from cmax import cmax
+from .loader import loader
+from .cmax import cmax
 import time
 
-'''
+
 def neh(data, nb_jobs):
     # TODO add dynamic  nb_machines
     cmax_t = 9999999
@@ -46,11 +46,11 @@ def neh(data, nb_jobs):
 def neh(data, nb_jobs):
     # TODO add dynamic  nb_machines
     cmax_t = 9999999
-    '''
+    """
     the parameter of the function needs to be a dataframe in order to 
     minimize the calculation by using Pandas built-in functions 
     :) 
-    '''
+    """
     mem_jobs_list = []
     partiel_jobs_list, res = [], []
     data['jid'] = data.index.copy()
@@ -69,18 +69,19 @@ def neh(data, nb_jobs):
             tmp = np.insert(partiel_jobs_list, i, j, axis=0)
 
     return tmp.to_numpy(), cmax_t
+'''
 
 """
 for testing just uncomment the two lines below 
 and modify the data.txt file
 """
 
-start = time.time()
-data = loader("../data/tai20_20.txt")
-sol, makespan = neh(data, 20)
-end = time.time()
-print("ordonnancement",sol)
-print("----------------------------------------")
-print("fin d'execution t=",makespan)
-print("----------------------------------------")
-print("le temps d'exec algorithme",end-start)
+#start = time.time()
+#data = loader("../data/tai20_20.txt")
+#sol, makespan = neh(data, 20)
+#end = time.time()
+#print("ordonnancement",sol)
+#print("----------------------------------------")
+#print("fin d'execution t=",makespan)
+#print("----------------------------------------")
+#print("le temps d'exec algorithme",end-start)

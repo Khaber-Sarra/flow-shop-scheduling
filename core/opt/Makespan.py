@@ -10,7 +10,7 @@ def Makespan(data,ord):
     # temps exec sur machine precedente
     for j in range (m-1):
         res.append(data.iloc[ord[0],j]+res[j])
-    print(res)
+    #print(res)
     #pour les autres jobs
     for i in range(n-1):
         #le temps debut sur la premiere machine est egal

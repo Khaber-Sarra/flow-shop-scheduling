@@ -1,7 +1,7 @@
 #coding=utf-8
-import numpy
-from loader import loader
-from Makespan import Makespan
+import numpy as np
+from .loader import loader
+from .Makespan import Makespan
 import time
 import threading
 
@@ -22,13 +22,12 @@ cette fonction prend en parametre la matrice des temps d'exec des jobs sur les m
 et retourne l'ordonnancement des jobs et le temps de fin d'exec
 '''
 
-def Chen(dataset):
-
-   
-    #lire les donnees depuis le nom de fichier en entrée "Dataset"
-    data = loader(dataset,machines_in_rows=False)
-    print(data)
-    print("----------------------------------------")
+def Chen(data):
+    Som=[]                      
+    Inf=[]
+    Sup=[]
+    #print(data)
+    #print("----------------------------------------")
     #calculer la somme des temps d'execution de chaque job sur toutes les machines dans Som
     Som=data.sum(axis=1).tolist()
     ##print(Som)
@@ -67,16 +66,21 @@ def Chen(dataset):
     sol.append(maxIndex)
     for i in range(len(Sup)):
         sol.append(Sup[i][1])
+
+    results = np.zeros(data.shape,dtype=int)
+    # formatting the result 
+    for idx in range(len(sol)):
+        results[idx] = np.append(data[sol[idx]],[sol[idx]])
    
     #retourner l'ordonnencement final
-    return sol,Makespan(data,sol)
+    return results,Makespan(data,sol)
     
-start=time.time()
-sol,makespan=Chen("../data/data.txt")
-end=time.time()
-print("ordonnancement",sol)
-print("----------------------------------------")
-print("fin d'execution t=",makespan)
-print("----------------------------------------")
-print("le temps d'exec algorithme",end-start)
+#start=time.time()
+#sol,makespan=Chen("../data/data.txt")
+#end=time.time()
+#print("ordonnancement",sol)
+#print("----------------------------------------")
+#print("fin d'execution t=",makespan)
+#print("----------------------------------------")
+#print("le temps d'exec algorithme",end-start)
 
