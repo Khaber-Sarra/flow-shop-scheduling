@@ -5,7 +5,7 @@ from .cmax import cmax
 import time
 
 
-def neh(data, nb_jobs):
+def neh(data, nb_jobs, nb_machines):
     # TODO add dynamic  nb_machines
     cmax_t = 9999999
     
@@ -31,7 +31,7 @@ def neh(data, nb_jobs):
         for i in range(len(mem_jobs_list) + 1):
             partiel_jobs_list = mem_jobs_list
             tmp = np.insert(partiel_jobs_list, i, j, axis=0)
-            c = cmax(tmp, nb_jobs)
+            c = cmax(tmp, nb_machines)
             if c < cmax_t:
                 res = tmp
                 cmax_t = c
@@ -39,18 +39,19 @@ def neh(data, nb_jobs):
     res = pd.DataFrame(mem_jobs_list)
     res.drop([nb_machines+1],axis='columns',inplace=True)
     #print(res.to_numpy())
-    return res.to_numpy(), cmax_t
+    ord = res.loc[:, nb_machines].to_numpy()
+    return ord, res.to_numpy(), cmax_t
 
 '''
 
 def neh(data, nb_jobs):
     # TODO add dynamic  nb_machines
     cmax_t = 9999999
-    """
-    the parameter of the function needs to be a dataframe in order to 
-    minimize the calculation by using Pandas built-in functions 
-    :) 
-    """
+    
+    # the parameter of the function needs to be a dataframe in order to 
+    # minimize the calculation by using Pandas built-in functions 
+    # :) 
+    
     mem_jobs_list = []
     partiel_jobs_list, res = [], []
     data['jid'] = data.index.copy()
@@ -77,10 +78,11 @@ and modify the data.txt file
 """
 
 #start = time.time()
-#data = loader("../data/tai20_20.txt")
-#sol, makespan = neh(data, 20)
+#data = loader("../data/data.txt")
+#ord, sol, makespan = neh(data, 4,5)
 #end = time.time()
-#print("ordonnancement",sol)
+#print(sol)
+#print("ordonnancement",ord)
 #print("----------------------------------------")
 #print("fin d'execution t=",makespan)
 #print("----------------------------------------")

@@ -3,35 +3,37 @@ from Makespan import Makespan
 import numpy as np
 import time
 
-optimalSeq=[] #Contains the optimal sequence after traitement
-ub=0          #Upper Bound, After excuting the algorithm it will contain the makespan of the optimal sequence 
+optimalSeq=[] #La liste qui va contenir la séquence optimale à la fin du traitement.
 
-#Function to calculate the cost of the given sequence
+ub=0    #Upper Bound (Borne supérieure) Aprés l'exécution de l'algorithme elle va contenir 
+        #le temps de traitement globale de la séquence optimale dans toutes les machines.
+
+#Fonction qui calcule le coût de traitement d'une séquence donnée  
 def cost(dataset, seq):
     bgTime=[]
     n,m=dataset.shape
     cost=0
     if(len(seq)<=n):
-        #The first job start at t=0 in the first machine
+        #Le traitment de premier Job commence à t=0 dans la premiére machine.
         bgTime.append(0)
-        #Calculate the start time in the other machines
+        #Calculer de démarrage du traitement du premier Job sur les autres machines.
         for j in range (m-1):
             bgTime.append(dataset.iloc[seq[0],j]+bgTime[j])
 
-        #For the other jobs
+        #Pour les autres Jobs
         for i in range(len(seq)-1):
-            #The start time in the first machine
+            #Le temps de démarrage du traitement du Job i sur première machine.
             bgTime[0]=bgTime[0]+dataset.iloc[seq[i],0]
-            #The start time in the other machines
+            #Le temps de démarrage du traitement du Job i  sur les autres machines.
             for j in range(m-1):
                 bgTime[j+1]=max(dataset.iloc[seq[i],j+1]+bgTime[j+1],dataset.iloc[seq[i+1],j]+bgTime[j])
         
-        #cost contains the end time of the last job in the sequence after processing in the last machine
+        #cost contient le temps de fin de traitement du dernier Job de la séquence après lùexécution sur la dernière machine.
         cost = bgTime[m-1]+dataset.iloc[seq[len(seq)-1],m-1]
     
     return cost
 
-#Function that returns the evaluation of a node
+#Fonction qui calcule l'évaluation d'un noeud donné 
 def eval(cost, dataset, rJobs):
     eval=cost 
     n,m=dataset.shape
@@ -39,79 +41,79 @@ def eval(cost, dataset, rJobs):
         eval+=dataset.iloc[j][m-1]
     return eval
 
-#Function that maps the tree of possible solutions using DFS method.
-#returns the optimal one
+#Fonction qui parcourt l'arbre des solutions possibles en utilisant la méthode DFS.
+#elle retourne la séquence optimale
 def dfs(seq, rJobs, dataset):
     global ub
     global optimalSeq
-
-    #Foreach remaining job in rJobs list
+    
+    #Pour chaque job restant dans la liste "rJobs".
     for j in rJobs:
         seq1=[]
         rJobs1=[]
         seq1.extend(seq)
         rJobs1.extend(rJobs)
-        #Add this job to the actual sequence and remove it from the remaining jobs list
+        #Ajoutez ce job à la séquence actuelle et supprimez-la de la liste des job restants
         rJobs1.remove(j)
         seq1.append(j)
 
-        #Calculate the cost of the new sequence 
+        #Calculer le coût de la nouvelle séquence 
         c=cost(dataset, seq1)  
-        #if the mapping reached the lowest level in the branch
+        #Si le parcour atteint le niveau le plus bas de la branche
         if(len(rJobs1)==0):
-            #if the cost of this branch is inferieur of the actual upper bound
+            #Si le coût de la feuille de cette branche est inférieur à la borne supérieure actuelle
             if(c<ub):
-                #update the upper bound value
+                #Mettre à jour la borne limite supérieure
                 ub=c 
-                #update the optimal sequence
+                #Mettre à jour la séquence optimale
                 optimalSeq=[]
                 optimalSeq.extend(seq1) 
-        else: #if there are other remaining jobs in the list
-            #Calculate the evaluation of the actual node
+        else: #S'il reste d'autres job dans la liste des job restant
+            #Calculer l'évaluation du nœud actuel
             e=eval(c, dataset, rJobs1)
-            #if the 'e' value is inferieur of the upper bound the mapping continues
-            #else the branch is eliminated
+            #Si la valeur 'e' est inférieure à la borne supérieure le parcour continue
+            #Sinon la branche est éliminée
             if(e<ub):
                 dfs(seq1, rJobs1, dataset)
         
 
-#Johnson Algorthim for the particular case with only tow machines  
+#Johnson Algorthim pour le cas particulier avec uniquement deux machines 
 def johnson_seq(data):
         global optimalSeq
-        #data matrix must have only two machines
+        #La matrice de données ne doit avoir que deux machines
         nb_machines = len(data)
         nb_jobs = len(data[0])
-        #divide the set of jobs into two subsets
+        #Diviser l'ensemble des jobs en deux sous-ensembles
         machine_1_sequence = [j for j in range(nb_jobs) if data[0][j] <= data[1][j]]
         machine_2_sequence = [j for j in range(nb_jobs) if data[0][j] > data[1][j]]
 
-        #sort the two subsets 
-        #The first one is sorted in ascending order
+        #Trier les deux sous-ensembles
+        #Le premier est trié par ordre croissant
         machine_1_sequence.sort(key=lambda x: data[0][x])
 
-        #THe second one is sorted descending order
+        #Le second est trié par ordre décroissant
         machine_2_sequence.sort(key=lambda x: data[1][x], reverse=True)
 
-        #Merge the two subsets into one set which represente the optimale sequence
+        #Fusionner les deux sous-ensembles en un seul ensemble qui représente la séquence optimale
         optimalSeq = machine_1_sequence + machine_2_sequence
 
-#Branch & bound function for FSP problem using DFS parcour 
+#Fonction "Branch and Bound" qui retourne la séquence optimale pour le problème FSP. 
 def bb(dataset):
     global ub
     global optimalSeq
-    seq=[]
+    seq=[]           
     rJobs=[]
     n,m=dataset.shape
-    if m==2 :
+    if m==2 : #Traiter le cas particulier ou on a seulement 2 machines en utilisant Johnson Méthod
         johnson_seq(dataset)
         ub=cost(dataset, optimalSeq)
-    else:
-        #Generate a sequence to calculate the initial Upper Bound value
+    else:#Le cas général
+        #Générer une séquence pour calculer la valeur initiale de la borne supérieure
         for i in range(n):
             rJobs.append(i)
         ub=cost(dataset, rJobs)
         optimalSeq=rJobs
-        #Call the DFS mapping function to get the optimal sequence
+        #Appelez la fonction de prcour DFS pour obtenir la séquence optimale
         dfs(seq, rJobs,dataset)
     return optimalSeq
 
