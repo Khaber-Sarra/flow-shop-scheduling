@@ -5,7 +5,7 @@ from cmax import cmax
 from loader import loader
 
 
-def neh(data, nb_jobs):
+def neh_i(data, nb_jobs):
     # TODO add dynamic  nb_machines
     cmax_t = 9999999
     '''
@@ -62,4 +62,4 @@ and modify the data.txt file and the number of jobs
 """
 
 data = loader("../data/data.txt")
-neh(data, 4)
+neh_i(data, 4)

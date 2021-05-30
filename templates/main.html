@@ -26,23 +26,40 @@
         </div>
 
     </div>
+    <main class="m-4">
+        <div>
+            <h3>Comparatif entre les different Méthodes</h3>
 
-    <div class="side-nav">
+        </div>
+    </main>
+
+
+
+    <div class="side-nav" style="background-color: white;height: 100%;">
         <header>
-            <div class="rich-area">
+            <div class="rich-area pt-4">
                 <h3>{{instance}}</h3>
             </div>
         </header>
         <nav>
             <ul>
+                <a href="/main" class="text-decoration-none">
+                    <li ripple class="active"><i class="material-icons">home</i>Comparatif</li>
+                </a>
                 <li ripple><i class="material-icons">build</i>Methodes Exactes</li>
-                <li ripple><i class="material-icons">star</i>Methode Heuristique - NEH</li>
+                <a href="/main/neh" class="text-decoration-none">
+                    <li ripple><i class="material-icons">star</i>Methode Heuristique - NEH</li>
+                </a>
+                <a href="/main/chen" class="text-decoration-none">
+                    <li ripple><i class="material-icons">star</i>Methode Heuristique - Chen</li>
+                </a>
                 <li ripple><i class="material-icons">grade</i>Methodes Hyper-Heuristiques</li>
                 <li ripple><i class="material-icons">android</i>Methodes Meta-Heuristiques</li>
                 <hr>
             </ul>
         </nav>
     </div>
+    </main>
     <script src="{% static 'home.js'%}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"

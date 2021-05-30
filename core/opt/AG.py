@@ -239,3 +239,4 @@ print("ordonnancement",sol)
 print("----------------------------------------")
 print("fin d'execution t=",makespan)
 print("----------------------------------------")
+
