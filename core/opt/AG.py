@@ -5,10 +5,20 @@ import time
 import random
 import itertools
 from Makespan import Makespan
+import sys
+import pandas
+from multiprocessing.dummy import Pool as ThreadPool
 
 
+dataset=sys.argv[1]
 
+da=pandas.read_csv(dataset,header=None,delim_whitespace=True)
+data=da.transpose()
+cost=data.to_numpy()
+n,m=cost.shape
 
+def Makesp(ord):
+    return Makespan(data,ord)
 
 #initialisation de la population de Npop individus parmi n jobs
 def initialization(Npop,n):
@@ -23,8 +33,7 @@ def initialization(Npop,n):
 #############################################################################
 
 #calculer le makespan d'une solution sol
-def calculateObj(data,sol):      
-    return Makespan(data,sol)
+
 
 
 #############################################################################
@@ -34,7 +43,7 @@ def calculateObj(data,sol):
 def selection(pop,data):
     popObj = []
     for i in range(len(pop)):
-        popObj.append([calculateObj(data,pop[i]), i])
+        popObj.append([Makespan(data,pop[i]), i])
     
     popObj.sort()
     
@@ -104,10 +113,10 @@ def mutation(sol,n):
 #afin de garder la taille de la population constante
 def elitistUpdate(oldPop, newPop,data):
     bestSolInd = 0
-    bestSol = calculateObj(data,oldPop[0])
+    bestSol = Makespan(data,oldPop[0])
     
     for i in range(1, len(oldPop)):
-        tempObj = calculateObj(data,oldPop[i])
+        tempObj = Makespan(data,oldPop[i])
         if tempObj < bestSol:
             bestSol = tempObj
             bestSolInd = i
@@ -122,15 +131,26 @@ def elitistUpdate(oldPop, newPop,data):
 
 #retourner la meilleur solution de la population, la valeur de la fct objective 
 def findBestSolution(pop,data):
-    bestObj = calculateObj(data,pop[0])
+
+    '''
+    pool = ThreadPool(2)
+    results = pool.map(Makesp, pop)
+    pool.close()
+    pool.join()
+    minIndex=results.index(min(results))
+    return minIndex,results[minIndex]
+'''
+    bestObj = Makespan(data,pop[0])
     bestInd = 0
     for i in range(1, len(pop)):
-        tObj = calculateObj(data,pop[i])
+        tObj = Makespan(data,pop[i])
         if tObj < bestObj:
             bestObj = tObj
             bestInd = i
-            
+          
     return bestInd, bestObj
+      
+    
 
 #############################################################################
 
@@ -144,7 +164,7 @@ def AG(dataset):
 
    
     #lire les donnees depuis le nom de fichier en entrée "Dataset"
-    data = loader(dataset,machines_in_rows=False)
+    data = loader(dataset,machines_in_rows=True)
     cost=data.to_numpy()
     n,m=cost.shape
     # Nombre d'indiv dans la population
@@ -152,10 +172,10 @@ def AG(dataset):
     # Probabilité de croisement
     Pc = 1.0
     # Probabilité de mutation
-    Pm = 1.0
+    Pm = 0.7
     # critere d'arret
     if (n<100):
-        stopGeneration = 100
+        stopGeneration = 75
     else:
         stopGeneration = 125
 
@@ -201,8 +221,8 @@ def AG(dataset):
 
     bestSol, bestObj = findBestSolution(population,data)
         
-    print("Population:")
-    print(population)
+    #print("Population:")
+    #print(population)
     print() 
 
     print("CPU Time (s)")
@@ -211,8 +231,9 @@ def AG(dataset):
 
     return population[bestSol],bestObj
 
+sol,makespan=AG(dataset)
 
-sol,makespan=AG("./core/data/data1.txt")
+
 print("----------------------------------------")
 print("ordonnancement",sol)
 print("----------------------------------------")

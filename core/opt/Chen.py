@@ -4,6 +4,7 @@ from loader import loader
 from Makespan import Makespan
 import time
 import threading
+import sys
 
 Som=[]                      
 Inf=[]
@@ -26,8 +27,8 @@ def Chen(dataset):
 
    
     #lire les donnees depuis le nom de fichier en entrée "Dataset"
-    data = loader(dataset,machines_in_rows=False)
-    print(data)
+    data = loader(dataset,machines_in_rows=True)
+    #print(data)
     print("----------------------------------------")
     #calculer la somme des temps d'execution de chaque job sur toutes les machines dans Som
     Som=data.sum(axis=1).tolist()
@@ -70,9 +71,9 @@ def Chen(dataset):
    
     #retourner l'ordonnencement final
     return sol,Makespan(data,sol)
-    
+dataset=sys.argv[1]   
 start=time.time()
-sol,makespan=Chen("../data/data.txt")
+sol,makespan=Chen(dataset)
 end=time.time()
 print("ordonnancement",sol)
 print("----------------------------------------")

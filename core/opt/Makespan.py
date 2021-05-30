@@ -1,25 +1,39 @@
+import queue
 
-def Makespan(data,ord):
-    res=[]
-
-    n,m=data.shape
-    #le premier job dans ordonnancement ord commence sur la machine1 en t=0
-    res.append(0)
-    #on calcule les temps de debut sur chaque machine 
-    # q le temps debut sur la machine courante = temps debut sur la machine precedente + 
-    # temps exec sur machine precedente
-    for j in range (m-1):
-        res.append(data.iloc[ord[0],j]+res[j])
-    print(res)
-    #pour les autres jobs
-    for i in range(n-1):
-        #le temps debut sur la premiere machine est egal
-        res[0]=res[0]+data.iloc[ord[i],0]
-        #pour les autres machines
-        for j in range(m-1):
-            res[j+1]=max(data.iloc[ord[i],j+1]+res[j+1],data.iloc[ord[i+1],j]+res[j])
-        print(res)
-
-    #Makespan retourne la fin d'exec du dernier job sur la derniere machine 
-    return res[m-1]+data.iloc[ord[n-1],m-1]
-
+def Makespan(cost,sol):
+    n,m=cost.shape
+    qTime = queue.PriorityQueue()
+    
+    qMachines = []
+    for i in range(m):
+        qMachines.append(queue.Queue())
+    
+    for i in range(n):
+        qMachines[0].put(sol[i])
+    
+    busyMachines = []
+    for i in range(m):
+        busyMachines.append(False)
+    
+    time = 0
+    
+    job = qMachines[0].get()
+    qTime.put((time+cost.iloc[job,0], 0, job))
+    busyMachines[0] = True
+    
+    while True:
+        time, mach, job = qTime.get()
+        if job == sol[n-1] and mach == m-1:
+            break
+        busyMachines[mach] = False
+        if not qMachines[mach].empty():
+                j = qMachines[mach].get()
+                qTime.put((time+cost.iloc[j,mach], mach, j))
+                busyMachines[mach] = True
+        if mach < m-1:
+            if busyMachines[mach+1] == False:
+                qTime.put((time+cost.iloc[job,mach+1], mach+1, job))
+                busyMachines[mach+1] = True
+            else:
+                qMachines[mach+1].put(job)
+    return time
