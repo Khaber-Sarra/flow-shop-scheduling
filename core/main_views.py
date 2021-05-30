@@ -26,15 +26,16 @@ def neh_view(request):
                 loaded_instance = loader(f"{BASE_DIR}/user_data/{instance}.txt",machines_in_rows=machines_in_rows)
                 shape = loaded_instance.shape
                 nb_jobs = shape[1]
+                nb_machines = shape[0]
                 if  machines_in_rows:
-                    nb_jobs = shape[0]  
+                    nb_jobs = shape[0]
+                    nb_machines = shape[1]
                 start =time.time()
-                result =neh(loaded_instance,nb_jobs)
-                print(result[0])
+                result =neh(loaded_instance,nb_jobs,nb_machines)
                 end = time.time()
                 context["execution_time"] = round(end-start,3)
-                context['makespan'] = result[1]
-                context["chart_data"] = json.dumps(result[0].tolist())
+                context['makespan'] = result[2]
+                context["chart_data"] = json.dumps(result[1].tolist())
             return render(request, "neh.html", context=context)
         else:
             return redirect("/")
@@ -59,7 +60,6 @@ def chen_view(request):
                 end = time.time()
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
-
                 context["chart_data"] = json.dumps(result[0].tolist())
             return render(request, "chen.html", context=context)
         else:
