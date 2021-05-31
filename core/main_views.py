@@ -15,6 +15,19 @@ import time
 
 BASE_DIR = Path(__file__).resolve().parent
 
+def save_results(metadata,makespan,execution_time,name):
+    if name in metadata.keys():
+        if metadata[name]["makespan"] > makespan:
+            metadata[name]["makespan"] = makespan
+        if metadata[name]["execution_time"] > execution_time:
+            metadata[name]["execution_time"] = execution_time
+    else:
+        metadata[name] = {
+            "makespan":makespan,
+            "execution_time": execution_time
+        }
+    return metadata
+
 def neh_view(request):
     if request.method =="GET":
         if "instance" in request.session:
@@ -38,12 +51,19 @@ def neh_view(request):
                 start =time.time()
                 result =neh(loaded_instance,nb_jobs,nb_machines)
                 end = time.time()
+
+                # save result 
+                new_instance_info = save_results(instance_info,int(result[2]),round(end-start,3),"neh")
+                open(f"{BASE_DIR}/user_data/{instance}.json",'w').write(json.dumps(new_instance_info))
+
+
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[2]
                 context["chart_data"] = json.dumps(result[1].tolist())
             return render(request, "neh.html", context=context)
         else:
             return redirect("/")
+
 
 def chen_view(request):
     if request.method =="GET":
@@ -54,12 +74,16 @@ def chen_view(request):
             }
             start = request.GET.get("start", None)
             if start:
-                loaded_instance = read_instance(instance)
+                loaded_instance,instance_info = read_instance(instance)
                 shape = loaded_instance.shape
                 start =time.time()
                 result =Chen(loaded_instance)
                 end = time.time()
-                results = format_result(result[0],loaded_instance)    
+                results = format_result(result[0],loaded_instance) 
+                # write result
+                new_instance_info = save_results(instance_info,int(result[1]),round(end-start,3),"chen")
+                open(f"{BASE_DIR}/user_data/{instance}.json",'w').write(json.dumps(new_instance_info)) 
+
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
                 context["chart_data"] = json.dumps(results.tolist())
@@ -80,7 +104,7 @@ def read_instance(instance):
     if instance_info['instance_structure'] !="jobs-machines":
         machines_in_rows = True                 
     loaded_instance = loader(f"{BASE_DIR}/user_data/{instance}.txt",machines_in_rows=machines_in_rows)
-    return loaded_instance
+    return loaded_instance,instance_info
 
 def breach_and_bounds_view(request):
     if request.method =="GET":
@@ -91,12 +115,16 @@ def breach_and_bounds_view(request):
             }
             start = request.GET.get("start", None)
             if start:
-                loaded_instance = read_instance(instance)
+                loaded_instance,instance_info = read_instance(instance)
                 shape = loaded_instance.shape
                 start =time.time()
                 result =bb(loaded_instance)
                 end = time.time()
-                results = format_result(result[0],loaded_instance)    
+                results = format_result(result[0],loaded_instance)   
+                # write result
+                new_instance_info = save_results(instance_info,int(result[1]),round(end-start,3),"bb")
+                open(f"{BASE_DIR}/user_data/{instance}.json",'w').write(json.dumps(new_instance_info)) 
+
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
                 context["chart_data"] = json.dumps(results.tolist())
@@ -126,6 +154,11 @@ def tabu_search_view(request):
                 start =time.time()
                 result =tabu_search(loaded_instance,3,nb_jobs,nb_machines)
                 end = time.time()
+
+                # write result
+                new_instance_info = save_results(instance_info,int(result[1]),round(end-start,3),"tabu")
+                open(f"{BASE_DIR}/user_data/{instance}.json",'w').write(json.dumps(new_instance_info)) 
+
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
                 context["chart_data"] = json.dumps(result[0].tolist())
@@ -142,12 +175,18 @@ def ag_view(request):
             }
             start = request.GET.get("start", None)
             if start:
-                loaded_instance = read_instance(instance)
+                loaded_instance,instance_info = read_instance(instance)
                 shape = loaded_instance.shape
                 start =time.time()
                 result =AG(loaded_instance)
                 end = time.time()
-                results = format_result(result[0],loaded_instance)    
+                results = format_result(result[0],loaded_instance)
+
+                # write result
+                new_instance_info = save_results(instance_info,int(result[1]),round(end-start,3),"ag")
+                open(f"{BASE_DIR}/user_data/{instance}.json",'w').write(json.dumps(new_instance_info))     
+                
+                
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
                 context["chart_data"] = json.dumps(results.tolist())
@@ -164,12 +203,17 @@ def palmer_view(request):
             }
             start = request.GET.get("start", None)
             if start:
-                loaded_instance = read_instance(instance)
+                loaded_instance,instance_info = read_instance(instance)
                 shape = loaded_instance.shape
                 start =time.time()
                 result =ph(loaded_instance)
                 end = time.time()
-                results = format_result(result[0],loaded_instance)    
+                results = format_result(result[0],loaded_instance)   
+
+                # write result
+                new_instance_info = save_results(instance_info,int(result[1]),round(end-start,3),"palmer")
+                open(f"{BASE_DIR}/user_data/{instance}.json",'w').write(json.dumps(new_instance_info)) 
+
                 context["execution_time"] = round(end-start,3)
                 context['makespan'] = result[1]
                 context["chart_data"] = json.dumps(results.tolist())
