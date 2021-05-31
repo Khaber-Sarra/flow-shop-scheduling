@@ -1,10 +1,10 @@
-from loader import loader
+from .loader import loader
 import numpy as np
 import math
 import time
 import random
 import itertools
-from Makespan import Makespan
+from .Makespan import Makespan
 import sys
 import pandas
 from multiprocessing.dummy import Pool as ThreadPool
@@ -160,11 +160,11 @@ et retourne l'ordonnancement des jobs et le temps de fin d'exec
 '''
 
 #main
-def AG(dataset):
+def AG(data):
 
    
     #lire les donnees depuis le nom de fichier en entrée "Dataset"
-    data = loader(dataset,machines_in_rows=True)
+    #data = loader(dataset,machines_in_rows=True)
     cost=data.to_numpy()
     n,m=cost.shape
     # Nombre d'indiv dans la population
@@ -180,7 +180,7 @@ def AG(dataset):
         stopGeneration = 125
 
     # temps debut exec
-    t1 = time.time()
+    #t1 = time.time()
 
     # Creation de la population initiale
     population = initialization(Npop,n)
@@ -215,7 +215,7 @@ def AG(dataset):
         #print(findBestSolution(population))
 
     # temps fin exec algo
-    t2=time.time()
+    #t2=time.time()
         
     # Resultats
 
@@ -223,20 +223,20 @@ def AG(dataset):
         
     #print("Population:")
     #print(population)
-    print() 
+    #print() 
 
-    print("CPU Time (s)")
-    timePassed = (t2-t1)
-    print("%.2f" %timePassed)
+    #print("CPU Time (s)")
+    #timePassed = (t2-t1)
+    #print("%.2f" %timePassed)
 
     return population[bestSol],bestObj
 
-sol,makespan=AG("../data/tai20_5.txt")
-
-
-print("----------------------------------------")
-print("ordonnancement",sol)
-print("----------------------------------------")
-print("fin d'execution t=",makespan)
-print("----------------------------------------")
+#sol,makespan=AG("../data/tai20_5.txt")
+#
+#
+#print("----------------------------------------")
+#print("ordonnancement",sol)
+#print("----------------------------------------")
+#print("fin d'execution t=",makespan)
+#print("----------------------------------------")
 

@@ -5,11 +5,11 @@ l'implementation du recherche tabu
 import time
 import sys
 import  pandas as pd
-from neh import neh
-from neh_improved import neh_i
-from loader import loader
+from .neh import neh
+from .neh_improved import neh_i
+from .loader import loader
 from itertools import combinations
-from cmax import cmax
+from .cmax import cmax
 
 
 
@@ -59,7 +59,7 @@ def tabu_search(data, tenur, nb_jobs, nb_machines):
 
         # un mouvement admissible
         while True :
-            print("move")
+            #print("move")
             #selectionner le voisin avec la plus petite valeur
             best_move = min(tabu_struct,key=lambda x : tabu_struct[x]['valeur'])
             best_move_value = tabu_struct[best_move]['valeur']
@@ -142,12 +142,12 @@ def fake_neh(data, nb_jobs, nb_machines):
 
 
 
-start=time.time()
-data = loader("../data/tai20_5.txt")
-sol, makespan=tabu_search(data, 3, 5, 20)
-end=time.time()
-print("ordonnancement", sol)
-print("----------------------------------------")
-print("fin d'execution t=", makespan)
-print("----------------------------------------")
-print("le temps d'exec algorithme", end-start)
+#start=time.time()
+#data = loader("../data/tai20_5.txt",machines_in_rows=True)
+#sol, makespan=tabu_search(data, 3, 5, 20)
+#end=time.time()
+#print("ordonnancement", sol)
+#print("----------------------------------------")
+#print("fin d'execution t=", makespan)
+#print("----------------------------------------")
+#print("le temps d'exec algorithme", end-start)
