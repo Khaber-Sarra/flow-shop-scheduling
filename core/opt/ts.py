@@ -27,8 +27,8 @@ def tabu_search(data, tenur, nb_jobs, nb_machines):
     MAX_INT = sys.maxsize
     # les solutions initiales trouvees par NEH
     ord, best_sol, best_objval, = fake_neh(data, nb_jobs, nb_machines)
-    print(best_sol)
-    print(cmax(best_sol, nb_machines))
+    # print(best_sol)
+    # print(cmax(best_sol, nb_machines))
     current_sol, current_objval = best_sol, best_objval
 
     nb_machines = len(best_sol[0])-1
@@ -135,7 +135,7 @@ def fake_neh(data, nb_jobs, nb_machines):
 
     res = pd.DataFrame(jobs)
     res.drop([nb_machines+1],axis='columns',inplace=True)
-    print(res.to_numpy())
+    # print(res.to_numpy())
     ord = res.loc[:, nb_machines].to_numpy()
     return ord, res.to_numpy(), 999999
 
