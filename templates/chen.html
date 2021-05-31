@@ -29,11 +29,13 @@
     <main class="m-4">
         <div>
             <h3>Méthode Heuristique Chen</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</p>
+            <p> C’est une heuristique proposée par Chen en 1983 qui suive les étapes suivantes :
+                Pour chaque job i, calculer la somme des durées opératoires sur toutes les machines :
+                S(i)=somme(Pij) avec Pij la durée du job i dans la machine j
+                Enlever le job C de l’ensemble des jobs avec : S(C) = max{S(i)}, i = 1…n
+                SA le résultat de l’ordonnancement des jobs qui ont Pi1 ≤ Pim dans l’ordre croissant des Pi1
+                SB le résultat de l’ordonnancement des jobs qui ont Pi1 > Pim dans l’ordre décroissant des Pim
+                La solution finale est l’ordonnancement (SA C SB)</p>
             <div class="d-flex">
                 {% if makespan%}
                 <div class="d-flex" style="flex:1">
