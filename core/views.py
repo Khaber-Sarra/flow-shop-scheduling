@@ -109,3 +109,16 @@ def select_instance(request):
         return redirect("/main")
     else:
         return redirect("/")
+
+def logout(request):
+    if request.method =="GET":
+        if "instance" in request.session:
+            instance =  request.session['instance']
+            data_file =f"{BASE_DIR}/user_data/{instance}.txt"
+            json_file = f"{BASE_DIR}/user_data/{instance}.json"
+            os.remove(json_file)
+            os.remove(data_file)
+            del request.session["instance"]
+            return redirect("/")
+        else:
+            return redirect("/")

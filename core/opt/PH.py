@@ -1,5 +1,5 @@
-from loader import loader 
-from Makespan import Makespan
+from .loader import loader 
+from .Makespan import Makespan
 import numpy as np
 import time
 
@@ -48,19 +48,21 @@ def ph(dataset):
         ws.sort(key=lambda x: x[1], reverse=True)
         #Formulating a sequence based on the sorting done up above.
         h_seq = [x[0] for x in ws]
+
+        m_span = cost(dataset, h_seq)
       
-        return h_seq
+        return h_seq,m_span
 
 #Main Program   
-dataPath="../data/tai20_5.txt"
-dataset53=loader(dataPath, machines_in_rows=True)
-
-start=time.time()
-optimalSeq=ph(dataset53)
-end=time.time()
-
-mkspan=cost(dataset53, optimalSeq)
-
-print ('The optimal sequence is :',optimalSeq)
-print ("Makespan :",mkspan)
-print ('Execution time',end-start)
+#dataPath="../data/tai20_5.txt"
+#dataset53=loader(dataPath, machines_in_rows=True)
+#
+#start=time.time()
+#optimalSeq=ph(dataset53)
+#end=time.time()
+#
+#mkspan=cost(dataset53, optimalSeq)
+#
+#print ('The optimal sequence is :',optimalSeq)
+#print ("Makespan :",mkspan)
+#print ('Execution time',end-start)

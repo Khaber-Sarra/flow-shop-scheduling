@@ -10,6 +10,7 @@ from core.opt.Chen import Chen
 from core.opt.bb import bb
 from core.opt.ts import tabu_search
 from core.opt.AG import AG
+from core.opt.PH import ph
 import time
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -151,5 +152,27 @@ def ag_view(request):
                 context['makespan'] = result[1]
                 context["chart_data"] = json.dumps(results.tolist())
             return render(request, "ag.html", context=context)
+        else:
+            return redirect("/")
+
+def palmer_view(request):
+    if request.method =="GET":
+        if "instance" in request.session:
+            instance = request.session['instance']
+            context = {
+                "instance": instance
+            }
+            start = request.GET.get("start", None)
+            if start:
+                loaded_instance = read_instance(instance)
+                shape = loaded_instance.shape
+                start =time.time()
+                result =ph(loaded_instance)
+                end = time.time()
+                results = format_result(result[0],loaded_instance)    
+                context["execution_time"] = round(end-start,3)
+                context['makespan'] = result[1]
+                context["chart_data"] = json.dumps(results.tolist())
+            return render(request, "palmer.html", context=context)
         else:
             return redirect("/")
