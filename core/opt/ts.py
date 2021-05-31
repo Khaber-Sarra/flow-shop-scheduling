@@ -5,8 +5,8 @@ l'implementation du recherche tabu
 import time
 import sys
 import  pandas as pd
-from .neh import neh
-from .neh_improved import neh_i
+from neh import neh
+#from neh_improved import neh_i
 from .loader import loader
 from itertools import combinations
 from .cmax import cmax
@@ -26,8 +26,9 @@ def swapMove(data, i, j, jobs_index):
 def tabu_search(data, tenur, nb_jobs, nb_machines):
     MAX_INT = sys.maxsize
     # les solutions initiales trouvees par NEH
-    ord, best_sol, best_objval, = neh(data,nb_jobs,nb_machines)
-    print(best_sol)
+    ord, best_sol, best_objval, = fake_neh(data, nb_jobs, nb_machines)
+    # print(best_sol)
+    # print(cmax(best_sol, nb_machines))
     current_sol, current_objval = best_sol, best_objval
 
     nb_machines = len(best_sol[0])-1
@@ -48,7 +49,7 @@ def tabu_search(data, tenur, nb_jobs, nb_machines):
 
     Terminate = 0
 
-    while Terminate < 1000 :
+    while Terminate < 100 :
         #la fouille de tout le voisinage de la solution courante
         candidat_objval = MAX_INT
         for move in tabu_struct :
@@ -128,13 +129,13 @@ def fake_neh(data, nb_jobs, nb_machines):
 
     data['sum'] = data.drop('jid', axis=1).sum(axis=1)
     # data.sort_values(['sum'],ascending=False,inplace = True)
-    data.sort_values(['sum'], ascending=False, inplace=True)
+    #data.sort_values(['sum'], ascending=False, inplace=True)
     data.reset_index(drop=False)
     jobs = data.to_numpy()
 
     res = pd.DataFrame(jobs)
     res.drop([nb_machines+1],axis='columns',inplace=True)
-    print(res.to_numpy())
+    # print(res.to_numpy())
     ord = res.loc[:, nb_machines].to_numpy()
     return ord, res.to_numpy(), 999999
 
@@ -142,12 +143,12 @@ def fake_neh(data, nb_jobs, nb_machines):
 
 
 
-#start=time.time()
-#data = loader("../data/tai20_5.txt",machines_in_rows=True)
-#sol, makespan=tabu_search(data, 3, 5, 20)
-#end=time.time()
-#print("ordonnancement", sol)
-#print("----------------------------------------")
-#print("fin d'execution t=", makespan)
-#print("----------------------------------------")
-#print("le temps d'exec algorithme", end-start)
+# start=time.time()
+# data = loader("../data/data500-2.txt",machines_in_rows=False)
+# sol, makespan=tabu_search(data, 7, 500, 2)
+# end=time.time()
+# print("ordonnancement", sol)
+# print("----------------------------------------")
+# print("fin d'execution t=", makespan)
+# print("----------------------------------------")
+# print("le temps d'exec algorithme", end-start)
