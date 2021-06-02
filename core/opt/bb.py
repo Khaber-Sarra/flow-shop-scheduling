@@ -1,5 +1,5 @@
-from loader import loader 
-from Makespan import Makespan
+from .loader import loader 
+from .Makespan import Makespan
 import numpy as np
 import time
 
@@ -120,38 +120,38 @@ def bb(dataset):
 
 
 
-print ("First example  6 Jobs / 5 Mahines")
-dataPath="../data/data6-5.txt"
-dataset65=loader(dataPath)
-
-start=time.time()
-bb(dataset65)
-end=time.time()
-
-print ('The optimal sequence is :',optimalSeq)
-print ("Makespan :",ub)
-print ('Execution time',end-start)
-
-print ("\nSecond example  8 Jobs / 5 machines")
-dataPath="../data/data8-5.txt"
-dataset85=loader(dataPath)
-
-start=time.time()
-bb(dataset85)
-end=time.time()
-
-print ('The optimal sequence is :',optimalSeq)
-print ("Makespan :",ub)
-print ('Execution time',end-start) 
-
-print ("Third example  500 Jobs / 2 machines")
-dataPath="../data/data500-2.txt"
-dataset=loader(dataPath)
-
-start=time.time()
-bb(dataset)
-end=time.time()
-
-print ('The optimal sequence is :',optimalSeq)
-print ("Makespan :",ub)
-print ('Execution time',end-start)  
+#print ("First example  6 Jobs / 5 Mahines")
+#dataPath="../data/data6-5.txt"
+#dataset65=loader(dataPath)
+#
+#start=time.time()
+#bb(dataset65)
+#end=time.time()
+#
+#print ('The optimal sequence is :',optimalSeq)
+#print ("Makespan :",ub)
+#print ('Execution time',end-start)
+#
+#print ("\nSecond example  8 Jobs / 5 machines")
+#dataPath="../data/data8-5.txt"
+#dataset85=loader(dataPath)
+#
+#start=time.time()
+#bb(dataset85)
+#end=time.time()
+#
+#print ('The optimal sequence is :',optimalSeq)
+#print ("Makespan :",ub)
+#print ('Execution time',end-start) 
+#
+#print ("Third example  500 Jobs / 2 machines")
+#dataPath="../data/data500-2.txt"
+#dataset=loader(dataPath)
+#
+#start=time.time()
+#bb(dataset)
+#end=time.time()
+#
+#print ('The optimal sequence is :',optimalSeq)
+#print ("Makespan :",ub)
+#print ('Execution time',end-start)  

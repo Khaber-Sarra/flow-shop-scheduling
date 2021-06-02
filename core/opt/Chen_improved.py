@@ -1,21 +1,22 @@
 #coding=utf-8
 import numpy as np
-from .loader import loader
-from .Makespan import Makespan
+from loader import loader
+from Makespan import Makespan
 import time
 import threading
 import pandas as pd
 import sys
+import asyncio
 
 Som=[]                      
 Inf=[]
 Sup=[]
 
-def sortInf(data):
+async def sortInf(data):
     #trier la liste Inf selon l'ordre croissant de P1
     Inf=sorted(data,key=lambda x:x[0])
 
-def sortSup(data):
+async def sortSup(data):
      #trier la liste Sup selon l'ordre décroissant de Pm
     Sup=sorted(data,key=lambda x:x[0], reverse=True)
 
@@ -45,19 +46,23 @@ def Chen(data):
             else :
                 Sup.append([data.iloc[i,m-1],i])
 
+    loop = asyncio.get_event_loop()
+    futures = [sortInf(Inf),sortSup(Sup)]
+    loop.run_until_complete(asyncio.wait(futures))
+    loop.close()
     # creer deux threads pour la parallelisation du tri des sequences Inf et Sup
-    t1 = threading.Thread(target=sortInf,args=(Inf,))
-    t2 = threading.Thread(target=sortSup,args=(Sup,))
-  
-    # starting thread 1
-    t1.start()
-    # starting thread 2
-    t2.start()
-  
-    # wait until thread 1 is completely executed
-    t1.join()
-    # wait until thread 2 is completely executed
-    t2.join()
+    #t1 = threading.Thread(target=sortInf,args=(Inf,))
+    #t2 = threading.Thread(target=sortSup,args=(Sup,))
+    #
+    ## starting thread 1
+    #t1.start()
+    ## starting thread 2
+    #t2.start()
+    #
+    ## wait until thread 1 is completely executed
+    #t1.join()
+    ## wait until thread 2 is completely executed
+    #t2.join()
     ##print("La premiere sequence",Inf)
 
     ##print("La deuxieme sequence",Sup)
@@ -71,13 +76,13 @@ def Chen(data):
 
     #retourner l'ordonnencement final
     return sol,Makespan(data,sol)
-#data = loader(f"../data/tai500_20.txt",machines_in_rows=True)  
-#start=time.time()
-#sol,makespan=Chen(data)
-#end=time.time()
-#print("ordonnancement",sol)
-#print("----------------------------------------")
-#print("fin d'execution t=",makespan)
-#print("----------------------------------------")
-#print("le temps d'exec algorithme",end-start)
+data = loader(f"../data/tai500_20.txt",machines_in_rows=True) 
+start=time.time()
+sol,makespan=Chen(data)
+end=time.time()
+print("ordonnancement",sol)
+print("----------------------------------------")
+print("fin d'execution t=",makespan)
+print("----------------------------------------")
+print("le temps d'exec algorithme",end-start)
 

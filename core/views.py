@@ -38,9 +38,20 @@ def create_instance(request):
 
 def main(request):
     if "instance" in request.session:
+
+        instance = request.session['instance']
         context = {
-            "instance": request.session['instance']
+            "instance": instance
         }
+        instance_info = json.loads(open(f"{BASE_DIR}/user_data/{instance}.json",'r').read())
+        del instance_info["instance_structure"]
+        del instance_info["instance_name"]
+        del instance_info["type"]
+        chart_data = []
+        for k,v in instance_info.items():
+            chart_data.append([k,v["makespan"],v["execution_time"]])
+        print(chart_data)
+        context["chart_data"] = json.dumps(chart_data)
         return render(request, "main.html", context=context)
     else:
         return redirect("/")
@@ -109,3 +120,16 @@ def select_instance(request):
         return redirect("/main")
     else:
         return redirect("/")
+
+def logout(request):
+    if request.method =="GET":
+        if "instance" in request.session:
+            instance =  request.session['instance']
+            data_file =f"{BASE_DIR}/user_data/{instance}.txt"
+            json_file = f"{BASE_DIR}/user_data/{instance}.json"
+            os.remove(json_file)
+            os.remove(data_file)
+            del request.session["instance"]
+            return redirect("/")
+        else:
+            return redirect("/")

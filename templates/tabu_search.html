@@ -28,14 +28,16 @@
     </div>
     <main class="m-4">
         <div>
-            <h3>Méthode Heuristique Chen</h3>
-            <p> C’est une heuristique proposée par Chen en 1983 qui suive les étapes suivantes :
-                Pour chaque job i, calculer la somme des durées opératoires sur toutes les machines :
-                S(i)=somme(Pij) avec Pij la durée du job i dans la machine j
-                Enlever le job C de l’ensemble des jobs avec : S(C) = max{S(i)}, i = 1…n
-                SA le résultat de l’ordonnancement des jobs qui ont Pi1 ≤ Pim dans l’ordre croissant des Pi1
-                SB le résultat de l’ordonnancement des jobs qui ont Pi1 > Pim dans l’ordre décroissant des Pim
-                La solution finale est l’ordonnancement (SA C SB)</p>
+            <h3>Méthode Meta Heuristique Recherche Tabou</h3>
+            <p>La recherche tabou est une métaheuristique d'optimisation présentée par Fred W. Glover (en) en 1986. On
+                trouve souvent l'appellation recherche avec tabous en français.
+
+                Cette méthode est une métaheuristique itérative qualifiée de recherche locale au sens large.
+                L'idée de la recherche tabou consiste, à partir d'une position donnée, à en explorer le voisinage et à
+                choisir la position dans ce voisinage qui minimise la fonction objectif.
+
+
+            </p>
             <div class="d-flex">
                 {% if makespan%}
                 <div class="d-flex" style="flex:1">
@@ -55,7 +57,7 @@
             <div id="chart_div" class="mt-3" style="overflow-x: scroll; height:460px ;">
             </div>
             <div class="btn btn-default play-instance position-absolute m-3 rounded-circle ">
-                <a href="/main/chen?start=1">
+                <a href="/main/tabu_search?start=1">
                     <span class="material-icons mt-1" style="color:white">
                         play_arrow
                     </span>
@@ -84,15 +86,14 @@
                 <a href="/main/neh" class="text-decoration-none">
                     <li ripple><i class="material-icons">star</i>Methode Heuristique - NEH</li>
                 </a>
-
                 <a href="/main/chen" class="text-decoration-none">
-                    <li ripple class="active"><i class="material-icons">star</i>Methode Heuristique - Chen</li>
+                    <li ripple><i class="material-icons">star</i>Methode Heuristique - Chen</li>
                 </a>
                 <a href="/main/palmer" class="text-decoration-none">
                     <li ripple><i class="material-icons">star</i>Methode Heuristique - Palmer</li>
                 </a>
                 <a href="/main/tabu_search" class="text-decoration-none">
-                    <li ripple><i class="material-icons">android</i>Methodes Meta-Heuristiques - Tabu
+                    <li ripple class="active"><i class="material-icons">android</i>Methodes Meta-Heuristiques - Tabu
                         Search</li>
                 </a>
                 <a href="/main/ag" class="text-decoration-none">

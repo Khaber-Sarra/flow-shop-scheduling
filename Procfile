@@ -1,0 +1,1 @@
+web: gunicorn fps_dashboard.wsgi

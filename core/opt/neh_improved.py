@@ -1,8 +1,8 @@
 import pandas
 import numpy as np
 
-from cmax import cmax
-from loader import loader
+from .cmax import cmax
+from .loader import loader
 
 
 def neh_i(data, nb_jobs):
@@ -61,5 +61,5 @@ for testing just uncomment the two lines below
 and modify the data.txt file and the number of jobs
 """
 
-data = loader("../data/data.txt")
-neh_i(data, 4)
+#data = loader("../data/data.txt")
+#neh_i(data, 4)
