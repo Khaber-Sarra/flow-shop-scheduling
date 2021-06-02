@@ -152,7 +152,7 @@ def tabu_search_view(request):
                     nb_jobs = shape[0]
                     nb_machines = shape[1]
                 start =time.time()
-                result =tabu_search(loaded_instance,3,nb_jobs,nb_machines)
+                result =tabu_search(loaded_instance,6,nb_jobs,nb_machines)
                 end = time.time()
 
                 # write result

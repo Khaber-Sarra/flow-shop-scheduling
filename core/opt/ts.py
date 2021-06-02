@@ -5,7 +5,7 @@ l'implementation du recherche tabu
 import time
 import sys
 import  pandas as pd
-from neh import neh
+from .neh import neh
 #from neh_improved import neh_i
 from .loader import loader
 from itertools import combinations
