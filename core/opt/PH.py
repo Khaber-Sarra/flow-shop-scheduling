@@ -41,7 +41,7 @@ def ph(dataset):
         ws = []
         #Evaluating the weight of each job by multiplying the weights with the processing times.
         for job_id in range(n):
-            p_ij = sum([dataset[j][job_id]*weights[j]
+            p_ij = sum([dataset.iloc[job_id,j]*weights[j]
                         for j in range(m)])
             ws.append((job_id, p_ij))
         #Sorting the jobs in the decreasing order of their weights.
@@ -53,15 +53,15 @@ def ph(dataset):
       
         return h_seq,m_span
 
-dataPath="../data/tai20_5.txt"
-dataset53=loader(dataPath, machines_in_rows=True)
+#dataPath="../data/tai20_5.txt"
+#dataset53=loader(dataPath, machines_in_rows=True)
 
-start=time.time()
-optimalSeq,mkspan=ph(dataset53)
-end=time.time()
+#start=time.time()
+#optimalSeq,mkspan=ph(dataset53)
+#end=time.time()
 
 
 #print ('The optimal sequence is :',optimalSeq)
-print ("Makespan :",mkspan)
-print ('Execution time',end-start)
+#print ("Makespan :",mkspan)
+#print ('Execution time',end-start)
 #Main Program   

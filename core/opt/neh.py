@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from .loader import loader
-from .cmax import cmax
+from loader import loader
+from cmax import cmax
 import time
 
 
