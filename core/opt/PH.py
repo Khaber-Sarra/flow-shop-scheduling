@@ -1,31 +1,31 @@
-from .loader import loader 
-from .Makespan import Makespan
+from loader import loader 
+from Makespan import Makespan
 import numpy as np
 import time
 
 
 
-#Function to calculate the cost of the given sequence.
+#Fonction qui calcule le coût de traitement d'une séquence donnée  
 def cost(dataset, seq):
     bgTime=[]
     n,m=dataset.shape
     cost=0
     if(len(seq)<=n):
-        #The first job start at t=0 in the first machine
+        #Le traitment de premier Job commence à t=0 dans la premiére machine.
         bgTime.append(0)
-        #Calculate the start time in the other machines
+        #Calculer de démarrage du traitement du premier Job sur les autres machines.
         for j in range (m-1):
             bgTime.append(dataset.iloc[seq[0],j]+bgTime[j])
 
-        #For the other jobs
+        #Pour les autres Jobs
         for i in range(len(seq)-1):
-            #The start time in the first machine
+            #Le temps de démarrage du traitement du Job i sur première machine.
             bgTime[0]=bgTime[0]+dataset.iloc[seq[i],0]
-            #The start time in the other machines
+            #Le temps de démarrage du traitement du Job i  sur les autres machines.
             for j in range(m-1):
                 bgTime[j+1]=max(dataset.iloc[seq[i],j+1]+bgTime[j+1],dataset.iloc[seq[i+1],j]+bgTime[j])
         
-        #cost contains the end time of the last job in the sequence after processing in the last machine
+        #cost contient le temps de fin de traitement du dernier Job de la séquence après lùexécution sur la dernière machine.
         cost = bgTime[m-1]+dataset.iloc[seq[len(seq)-1],m-1]
     
     return cost
@@ -53,16 +53,15 @@ def ph(dataset):
       
         return h_seq,m_span
 
-#Main Program   
-#dataPath="../data/tai20_5.txt"
-#dataset53=loader(dataPath, machines_in_rows=True)
-#
-#start=time.time()
-#optimalSeq=ph(dataset53)
-#end=time.time()
-#
-#mkspan=cost(dataset53, optimalSeq)
-#
+dataPath="../data/tai20_5.txt"
+dataset53=loader(dataPath, machines_in_rows=True)
+
+start=time.time()
+optimalSeq,mkspan=ph(dataset53)
+end=time.time()
+
+
 #print ('The optimal sequence is :',optimalSeq)
-#print ("Makespan :",mkspan)
-#print ('Execution time',end-start)
+print ("Makespan :",mkspan)
+print ('Execution time',end-start)
+#Main Program   
