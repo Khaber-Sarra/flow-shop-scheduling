@@ -1,11 +1,11 @@
 import numpy as np
-from loader import loader
-from Makespan import Makespan
+from .loader import loader
+from .Makespan import Makespan
 import random
-from neh import neh
-from Chen import Chen
-from STP import STP
-from PH import ph
+from .neh import neh
+from .Chen import Chen
+from .STP import STP
+from .PH import ph
 
 
 datal=[]
@@ -88,7 +88,7 @@ def get_ord(comb,datal):
     return sol        
 
 
-def HH(dataset,nb_it_max,nb_it_sansAme):
+def HH(dataset,nb_it_max=100,nb_it_sansAme=30):
    
     comb=[]
     tabu=[]

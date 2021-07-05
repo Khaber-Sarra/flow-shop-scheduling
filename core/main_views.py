@@ -11,6 +11,7 @@ from core.opt.bb import bb
 from core.opt.ts import tabu_search
 from core.opt.AG import AG
 from core.opt.PH import ph
+from core.opt.HH import HH
 import time
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -218,5 +219,35 @@ def palmer_view(request):
                 context['makespan'] = result[1]
                 context["chart_data"] = json.dumps(results.tolist())
             return render(request, "palmer.html", context=context)
+        else:
+            return redirect("/")
+
+
+
+def hyper_view(request):
+    if request.method =="GET":
+        if "instance" in request.session:
+            instance = request.session['instance']
+            context = {
+                "instance": instance
+            }
+            start = request.GET.get("start", None)
+            if start:
+                loaded_instance,instance_info = read_instance(instance)
+                shape = loaded_instance.shape
+                start =time.time()
+                result =ph(loaded_instance)
+                end = time.time()
+                print(result)
+                results = format_result(result[0],loaded_instance)   
+
+                # write result
+                new_instance_info = save_results(instance_info,int(result[1]),round(end-start,3),"hyper-heuristique")
+                open(f"{BASE_DIR}/user_data/{instance}.json",'w').write(json.dumps(new_instance_info)) 
+
+                context["execution_time"] = round(end-start,3)
+                context['makespan'] = result[1]
+                context["chart_data"] = json.dumps(results.tolist())
+            return render(request, "hh.html", context=context)
         else:
             return redirect("/")

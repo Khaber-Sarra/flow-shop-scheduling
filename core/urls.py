@@ -1,6 +1,6 @@
 from django.urls import  path
 from .views import  index,create_instance,main,generate_instance, select_instance,logout
-from.main_views import neh_view,chen_view,breach_and_bounds_view,tabu_search_view,ag_view,palmer_view
+from.main_views import neh_view,chen_view,breach_and_bounds_view,tabu_search_view,ag_view,palmer_view, hyper_view
 urlpatterns = [
     path('', index),
     path('main/', main),
@@ -11,6 +11,7 @@ urlpatterns = [
     path('main/bb',breach_and_bounds_view),
     path('main/chen',chen_view),
     path('main/ag',ag_view),
+    path('main/hh',hyper_view ),
     path('create', create_instance),
     path('generate', generate_instance),
     path('upload', select_instance)

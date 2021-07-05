@@ -1,5 +1,5 @@
-from loader import loader 
-from Makespan import Makespan
+from .loader import loader 
+from .Makespan import Makespan
 import numpy as np
 import time
 

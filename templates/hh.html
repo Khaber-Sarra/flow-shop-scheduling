@@ -27,14 +27,13 @@
 
     </div>
     <main class="m-4">
+
         <div>
-            <h3>Méthode Meta Heuristique Algorithme Génitique</h3>
-            <p>L’algorithme génétique est un algorithme de recherche base sur les mécanismes de la sélection naturelle
-                et de la génétique. Grace aux principes de recherche et d’amélioration, ces algorithmes sont très
-                performants. Ils utilisent un vocabulaire similaire à celui de la génétique et de la biologie avec un
-                ensemble d’opérateurs génétiques (croisement, mutation, et remplacement) qui définissent la manière avec
-                laquelle, les individus se combinent pendant la phase de reproduction, pour générer de nouvelles
-                solutions.</p>
+            <h3>Méthode Hyper Heuristique</h3>
+            <p>L'idée est de concevoir automatiquement des algorithmes en combinant la force et en compensant la
+                faiblesse des heuristiques connues. Dans un cadre d'hyper-heuristique typique, il existe une
+                méthodologie de haut niveau et un ensemble d'heuristiques de bas niveau (soit des heuristiques
+                constructives ou perturbatives)</p>
             <div class="d-flex">
                 {% if makespan%}
                 <div class="d-flex" style="flex:1">
@@ -54,7 +53,7 @@
             <div id="chart_div" class="mt-3" style="overflow-x: scroll; height:460px ;">
             </div>
             <div class="btn btn-default play-instance position-absolute m-3 rounded-circle ">
-                <a href="/main/ag?start=1">
+                <a href="/main/hh?start=1">
                     <span class="material-icons mt-1" style="color:white">
                         play_arrow
                     </span>
@@ -94,12 +93,12 @@
                         Search</li>
                 </a>
                 <a href="/main/ag" class="text-decoration-none">
-                    <li ripple class="active"><i class="material-icons">android</i>Methodes Meta-Heuristiques -
+                    <li ripple><i class="material-icons">android</i>Methodes Meta-Heuristiques -
                         Algorithme Génétique
                     </li>
                 </a>
                 <a href="/main/hh" class="text-decoration-none">
-                    <li ripple><i class="material-icons">lightbulb</i>Methodes Hyper Heuristiques
+                    <li ripple class="active"><i class="material-icons">lightbulb</i>Methodes Hyper Heuristiques
                     </li>
                 </a>
                 <a href="/main/logout" class="text-decoration-none">

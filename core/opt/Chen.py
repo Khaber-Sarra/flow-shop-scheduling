@@ -1,7 +1,7 @@
 #coding=utf-8
 import numpy as np
-from loader import loader
-from Makespan import Makespan
+from .loader import loader
+from .Makespan import Makespan
 import time
 import threading
 import pandas as pd
