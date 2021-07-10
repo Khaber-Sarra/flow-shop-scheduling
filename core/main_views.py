@@ -103,7 +103,7 @@ def read_instance(instance):
     machines_in_rows = False        
     instance_info = json.loads(open(f"{BASE_DIR}/user_data/{instance}.json",'r').read())
     if instance_info['instance_structure'] !="jobs-machines":
-        machines_in_rows = True                 
+        machines_in_rows = True               
     loaded_instance = loader(f"{BASE_DIR}/user_data/{instance}.txt",machines_in_rows=machines_in_rows)
     return loaded_instance,instance_info
 
@@ -236,9 +236,8 @@ def hyper_view(request):
                 loaded_instance,instance_info = read_instance(instance)
                 shape = loaded_instance.shape
                 start =time.time()
-                result =ph(loaded_instance)
+                result =HH(loaded_instance)
                 end = time.time()
-                print(result)
                 results = format_result(result[0],loaded_instance)   
 
                 # write result
